@@ -1,0 +1,19 @@
+{% load booking_extras %}
+<div class="table-unit">
+    <div class="table-circle">T{{ table.number }}</div>
+    <div class="seats-row">
+        {% for seat in table.seats.all %}
+            <div class="seat-wrapper">
+                {% if seat.id in isolated_discounts %}
+                    <div class="discount-badge">-{{ isolated_discounts|get_item:seat.id }}%</div>
+                {% endif %}
+                <div class="seat {{ seat.status }}"
+                     data-seat-id="{{ seat.id }}"
+                     data-status="{{ seat.status }}"
+                     onclick="selectSeat(this)">
+                    {{ seat.number }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

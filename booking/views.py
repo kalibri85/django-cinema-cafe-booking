@@ -1,12 +1,27 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Table, Seat, Booking
+from .booking_logic import check_isolated_seats
+
 
 
 def hall(request):
     row1 = Table.objects.prefetch_related('seats').filter(row=1).order_by('number')
     row2 = Table.objects.prefetch_related('seats').filter(row=2).order_by('number')
-    return render(request, 'booking/hall.html', {'row1': row1, 'row2': row2})
+    
+    isolated_seat_ids = []
+    isolated_discounts = {}
+    
+    for table in list(row1) + list(row2):
+        for item in check_isolated_seats(table):
+            isolated_seat_ids.append(item['seat_id'])
+            isolated_discounts[item['seat_id']] = item['discount']
+    
+    return render(request, 'booking/hall.html', {
+        'row1': row1,
+        'row2': row2,
+        'isolated_discounts': isolated_discounts,
+    })
 
 
 def book_seat(request, seat_id):

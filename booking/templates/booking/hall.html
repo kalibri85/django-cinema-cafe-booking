@@ -1,3 +1,4 @@
+{% load booking_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,6 +132,24 @@
         .btn-book:hover {
             background: #0C447C;
         }
+        .seat-wrapper {
+            position: relative;
+            display: inline-flex;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: -8px;
+            right: -3px;
+            background: #E24B4A;
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 4px;
+            z-index: 1;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -138,42 +157,18 @@
     <div class="screen">SCREEN</div>
 
     <div id="hall">
-    <div class="row">
-        {% for table in row1 %}
-            <div class="table-unit">
-                <div class="table-circle">T{{ table.number }}</div>
-                <div class="seats-row">
-                    {% for seat in table.seats.all %}
-                        <div class="seat {{ seat.status }}"
-                             data-seat-id="{{ seat.id }}"
-                             data-status="{{ seat.status }}"
-                             onclick="selectSeat(this)">
-                            {{ seat.number }}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+        <div class="row">
+            {% for table in row1 %}
+                {% include "booking/table_unit.html" %}
+            {% endfor %}
+        </div>
 
-    <div class="row">
-        {% for table in row2 %}
-            <div class="table-unit">
-                <div class="table-circle">T{{ table.number }}</div>
-                <div class="seats-row">
-                    {% for seat in table.seats.all %}
-                        <div class="seat {{ seat.status }}"
-                             data-seat-id="{{ seat.id }}"
-                             data-status="{{ seat.status }}"
-                             onclick="selectSeat(this)">
-                            {{ seat.number }}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
+        <div class="row">
+            {% for table in row2 %}
+                {% include "booking/table_unit.html" %}
+            {% endfor %}
+        </div>
     </div>
-</div>
 
     <div class="legend">
         <div class="legend-item">
@@ -223,7 +218,9 @@
                 btn.style.display = 'none';
             } else {
                 let msg = `Selected ${n} seat(s)`;
-                if (n % 2 !== 0) msg += ' — odd number! We can offer a discount for +1 seat';
+                if (n % 2 !== 0) {
+                    msg = `Add one more seat with discount to ensure your comfort!`;
+                }
                 info.textContent = msg;
                 btn.style.display = 'block';
             }
