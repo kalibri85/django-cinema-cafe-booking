@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Cafe — Book a seat</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .screen {
+            background: #333;
+            color: #fff;
+            width: 60%;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            letter-spacing: 3px;
+        }
+
+        .row {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .table-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .table-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .seats-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .seat {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid;
+        }
+
+        .seat.available {
+            background: #EAF3DE;
+            border-color: #3B6D11;
+            color: #27500A;
+        }
+
+        .seat.booked {
+            background: #FCEBEB;
+            border-color: #A32D2D;
+            color: #791F1F;
+            cursor: not-allowed;
+        }
+
+        .seat.reserved {
+            background: #D3D1C7;
+            border-color: #5F5E5A;
+            color: #2C2C2A;
+            cursor: not-allowed;
+        }
+
+        .legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+
+        .info {
+            margin-top: 1.5rem;
+            font-size: 14px;
+            color: #555;
+            min-height: 20px;
+        }
+
+        .btn-book {
+            margin-top: 1rem;
+            padding: 10px 28px;
+            background: #185FA5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .btn-book:hover {
+            background: #0C447C;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="screen">SCREEN</div>
+
+    <div id="hall">
+    <div class="row">
+        {% for table in row1 %}
+            <div class="table-unit">
+                <div class="table-circle">T{{ table.number }}</div>
+                <div class="seats-row">
+                    {% for seat in table.seats.all %}
+                        <div class="seat {{ seat.status }}"
+                             data-seat-id="{{ seat.id }}"
+                             data-status="{{ seat.status }}"
+                             onclick="selectSeat(this)">
+                            {{ seat.number }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        {% for table in row2 %}
+            <div class="table-unit">
+                <div class="table-circle">T{{ table.number }}</div>
+                <div class="seats-row">
+                    {% for seat in table.seats.all %}
+                        <div class="seat {{ seat.status }}"
+                             data-seat-id="{{ seat.id }}"
+                             data-status="{{ seat.status }}"
+                             onclick="selectSeat(this)">
+                            {{ seat.number }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-dot" style="background:#EAF3DE; border-color:#3B6D11"></div> Available
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background:#FCEBEB; border-color:#A32D2D"></div> Booked
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background:#D3D1C7; border-color:#5F5E5A"></div> Reserved
+        </div>
+    </div>
+
+    <div class="info" id="info">Click on a seat to select</div>
+    <button class="btn-book" id="btn-book" onclick="bookSeats()">Book</button>
+
+    <script>
+        const selectedSeats = [];
+
+        function selectSeat(el) {
+            if (el.dataset.status === 'booked' || el.dataset.status === 'reserved') return;
+
+            const seatId = el.dataset.seatId;
+
+            if (el.classList.contains('selected')) {
+                el.classList.remove('selected');
+                el.style.background = '#EAF3DE';
+                el.style.borderColor = '#3B6D11';
+                selectedSeats.splice(selectedSeats.indexOf(seatId), 1);
+            } else {
+                el.classList.add('selected');
+                el.style.background = '#B5D4F4';
+                el.style.borderColor = '#185FA5';
+                selectedSeats.push(seatId);
+            }
+
+            updateInfo();
+        }
+
+        function updateInfo() {
+            const info = document.getElementById('info');
+            const btn = document.getElementById('btn-book');
+            const n = selectedSeats.length;
+
+            if (n === 0) {
+                info.textContent = 'Click on a seat to select';
+                btn.style.display = 'none';
+            } else {
+                let msg = `Selected ${n} seat(s)`;
+                if (n % 2 !== 0) msg += ' — odd number! We can offer a discount for +1 seat';
+                info.textContent = msg;
+                btn.style.display = 'block';
+            }
+        }
+
+        function bookSeats() {
+            selectedSeats.forEach(seatId => {
+                fetch(`/book/${seatId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        const el = document.querySelector(`[data-seat-id="${seatId}"]`);
+                        el.classList.remove('selected');
+                        el.classList.add('reserved');
+                        el.style.background = '#D3D1C7';
+                        el.style.borderColor = '#5F5E5A';
+                        el.dataset.status = 'reserved';
+                    }
+                });
+            });
+            selectedSeats.length = 0;
+            updateInfo();
+        }
+    </script>
+
+</body>
+</html>

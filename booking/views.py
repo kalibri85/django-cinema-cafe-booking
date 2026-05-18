@@ -4,8 +4,9 @@ from .models import Table, Seat, Booking
 
 
 def hall(request):
-    tables = Table.objects.prefetch_related('seats').all()
-    return render(request, 'booking/hall.html', {'tables': tables})
+    row1 = Table.objects.prefetch_related('seats').filter(row=1).order_by('number')
+    row2 = Table.objects.prefetch_related('seats').filter(row=2).order_by('number')
+    return render(request, 'booking/hall.html', {'row1': row1, 'row2': row2})
 
 
 def book_seat(request, seat_id):
