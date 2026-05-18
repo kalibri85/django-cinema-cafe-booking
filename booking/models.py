@@ -32,3 +32,16 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.customer_name} - {self.seat}"
+    
+class Discount(models.Model):
+    DISCOUNT_TYPE_CHOICES = [
+        ('odd', 'Odd number of seats'),
+        ('isolated', 'Isolated seat'),
+    ]
+
+    discount_type = models.CharField(max_length=10, choices=DISCOUNT_TYPE_CHOICES, unique=True)
+    percentage = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.discount_type} - {self.percentage}%"    
