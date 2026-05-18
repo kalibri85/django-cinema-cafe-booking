@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Table, Seat, Booking
-from .booking_logic import check_isolated_seats
+from .booking_logic import check_isolated_seats, get_discount
 
 
 
@@ -21,6 +21,7 @@ def hall(request):
         'row1': row1,
         'row2': row2,
         'isolated_discounts': isolated_discounts,
+        'odd_discount': get_discount('odd'),
     })
 
 

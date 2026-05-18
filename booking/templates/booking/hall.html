@@ -219,7 +219,7 @@
             } else {
                 let msg = `Selected ${n} seat(s)`;
                 if (n % 2 !== 0) {
-                    msg = `Add one more seat with discount to ensure your comfort!`;
+                    msg = `Add one more seat with {{ odd_discount }}%  discount to ensure your comfort!`;
                 }
                 info.textContent = msg;
                 btn.style.display = 'block';
