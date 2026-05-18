@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Table, Seat, Booking
 from .booking_logic import check_isolated_seats, get_discount
+from django.utils import timezone
+from datetime import timedelta
 
 
 
@@ -29,10 +31,19 @@ def book_seat(request, seat_id):
     if request.method == 'POST':
         seat = Seat.objects.get(id=seat_id)
 
+        if seat.status == 'reserved':
+            if seat.reserved_until and seat.reserved_until < timezone.now():
+                seat.status = 'available'
+                seat.reserved_until = None
+                seat.save()
+            else:
+                return JsonResponse({'success': False, 'message': 'Seat is temporarily reserved'})
+
         if seat.status != 'available':
             return JsonResponse({'success': False, 'message': 'Seat is not available'})
 
         seat.status = 'reserved'
+        seat.reserved_until = timezone.now() + timedelta(minutes=10)
         seat.save()
 
         return JsonResponse({'success': True, 'message': 'Seat reserved'})

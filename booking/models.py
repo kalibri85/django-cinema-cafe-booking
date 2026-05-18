@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Table(models.Model):
@@ -20,6 +21,8 @@ class Seat(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='seats')
     number = models.IntegerField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
+    # null=True - field can be null in the database; blank=True - field can be empty in the form
+    reserved_until = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Seat {self.number} - {self.status}"
