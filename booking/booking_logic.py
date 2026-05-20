@@ -25,7 +25,7 @@ def check_isolated_seats(table):
     for seat in seats:
         if seat.status == 'available':
             other_seats = [s for s in seats if s.id != seat.id]
-            all_others_taken = all(s.status in ['booked', 'reserved'] for s in other_seats)
+            all_others_taken = all(s.status == 'booked' for s in other_seats)
 
             if all_others_taken:
                 percentage = get_discount('isolated')

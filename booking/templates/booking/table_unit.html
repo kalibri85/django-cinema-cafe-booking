@@ -4,7 +4,9 @@
     <div class="seats-row">
         {% for seat in table.seats.all %}
             <div class="seat-wrapper">
-                {% if seat.id in isolated_discounts %}
+                {% if seat.id in odd_seat_discounts %}
+                    <div class="discount-badge" style="background:#EF9F27;">-{{ odd_seat_discounts|get_item:seat.id }}%</div>
+                {% elif seat.id in isolated_discounts %}
                     <div class="discount-badge">-{{ isolated_discounts|get_item:seat.id }}%</div>
                 {% endif %}
                 <div class="seat {{ seat.status }}"

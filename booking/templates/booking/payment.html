@@ -28,6 +28,19 @@
             color: #185FA5;
         }
 
+        .odd-banner {
+            background: #FFF3CD;
+            border: 1px solid #EF9F27;
+            color: #633806;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .booking-info {
             background: #f5f5f5;
             padding: 1rem;
@@ -78,30 +91,46 @@
             margin-bottom: 1.5rem;
         }
 
-        .btn-pay {
+        .btn-pay, .btn-add, .btn-cancel {
             width: 100%;
+            box-sizing: border-box;
+            display: block;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
             padding: 12px;
+            margin-bottom: 8px;
+            text-decoration: none;
+        }
+
+        .btn-pay {
             background: #185FA5;
             color: white;
             border: none;
-            border-radius: 8px;
             font-size: 16px;
-            cursor: pointer;
         }
 
         .btn-pay:hover {
             background: #0C447C;
         }
 
+        .btn-add {
+            background: #EAF3DE;
+            border: 1px solid #3B6D11;
+            color: #27500A;
+        }
+
+        .btn-add:hover {
+            background: #C0DD97;
+        }
+
         .btn-cancel {
-            width: 100%;
-            padding: 10px;
             background: none;
             border: none;
             color: #888;
             font-size: 13px;
             cursor: pointer;
-            margin-top: 8px;
         }
 
         .btn-cancel:hover {
@@ -113,6 +142,12 @@
 
 <div class="payment-card">
     <h2>Payment</h2>
+
+    {% if is_odd %}
+    <div class="odd-banner">
+        Add one more seat with {{ odd_discount }}% discount to ensure your comfort!
+    </div>
+    {% endif %}
 
     <div class="booking-info">
         <p><strong>Name:</strong> {{ booking.customer_name }}</p>
@@ -137,6 +172,8 @@
         {% csrf_token %}
         <button type="submit" class="btn-pay">Pay now £{{ total }}</button>
     </form>
+
+    <a href="/" class="btn-add">+ Add more seats</a>
 
     <form method="POST" action="/payment/cancel/">
         {% csrf_token %}

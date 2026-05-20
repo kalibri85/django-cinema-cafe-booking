@@ -188,6 +188,7 @@
     <script>
         const selectedSeats = [];
         const isolatedSeatIds = {{ isolated_discounts|safe }};
+        const oddSeatIds = {{ odd_seat_discounts|safe }};
 
         function selectSeat(el) {
             if (el.dataset.status === 'booked' || el.dataset.status === 'reserved') return;
@@ -221,9 +222,10 @@
                 btn.style.display = 'none';
             } else {
                 const nonIsolatedCount = selectedSeats.filter(id => !isolatedSeatIds.hasOwnProperty(id)).length;
+                const hasOddSeat = selectedSeats.some(id => oddSeatIds.hasOwnProperty(id));
                 let msg = `Selected ${n} seat(s)`;
-                if (n % 2 !== 0) {
-                    msg = `Add one more seat with {{ odd_discount }}%  discount to ensure your comfort!`;
+                if (!hasOddSeat && nonIsolatedCount % 2 !== 0) {
+                    msg = `Add one more seat with {{ odd_discount }}% discount to ensure your comfort!`;
                 }
                 info.textContent = msg;
                 btn.style.display = 'block';
@@ -295,8 +297,12 @@
         <div style="background:white; padding:2rem; border-radius:12px; width:320px;">
             <h3>Confirm booking</h3>
             <p id="modal-seats-info" style="color:#555; font-size:14px;"></p>
-            <input type="text" id="customer-name" placeholder="Your name" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:6px; box-sizing:border-box;">
-            <input type="email" id="customer-email" placeholder="Your email" style="width:100%; padding:8px; margin-bottom:16px; border:1px solid #ddd; border-radius:6px; box-sizing:border-box;">
+            <input type="text" id="customer-name" placeholder="Your name" 
+                    value="{{ pending_name }}"
+                    style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:6px; box-sizing:border-box;">
+            <input type="email" id="customer-email" placeholder="Your email" 
+                    value="{{ pending_email }}"
+                    style="width:100%; padding:8px; margin-bottom:16px; border:1px solid #ddd; border-radius:6px; box-sizing:border-box;">
             <div style="display:flex; gap:10px;">
                 <button onclick="submitBooking()" style="flex:1; padding:10px; background:#185FA5; color:white; border:none; border-radius:6px; cursor:pointer;">Confirm</button>
                 <button onclick="closeModal()" style="flex:1; padding:10px; background:#ddd; border:none; border-radius:6px; cursor:pointer;">Cancel</button>
