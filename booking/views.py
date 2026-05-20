@@ -4,6 +4,8 @@ from .models import Table, Seat, Booking
 from .booking_logic import check_isolated_seats, get_discount
 from django.utils import timezone
 from datetime import timedelta
+from .forms import BookingForm
+from django.shortcuts import render, redirect
 
 
 
@@ -11,12 +13,10 @@ def hall(request):
     row1 = Table.objects.prefetch_related('seats').filter(row=1).order_by('number')
     row2 = Table.objects.prefetch_related('seats').filter(row=2).order_by('number')
     
-    isolated_seat_ids = []
     isolated_discounts = {}
     
     for table in list(row1) + list(row2):
         for item in check_isolated_seats(table):
-            isolated_seat_ids.append(item['seat_id'])
             isolated_discounts[item['seat_id']] = item['discount']
     
     return render(request, 'booking/hall.html', {
@@ -26,6 +26,74 @@ def hall(request):
         'odd_discount': get_discount('odd'),
     })
 
+def confirm_booking(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        seat_ids = request.POST.get('seat_ids', '').split(',')
+        seat_ids = [s for s in seat_ids if s]
+
+        if form.is_valid():
+            request.session['pending_booking'] = {
+                'seat_ids': seat_ids,
+                'customer_name': form.cleaned_data['customer_name'],
+                'customer_email': form.cleaned_data['customer_email'],
+            }
+            return JsonResponse({'success': True, 'redirect': '/payment/'})
+
+        return JsonResponse({'success': False, 'errors': form.errors})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request'})
+
+def payment(request):
+    booking = request.session.get('pending_booking')
+    if not booking:
+        return redirect('hall')
+
+    seat_ids = booking['seat_ids']
+    seats = Seat.objects.filter(id__in=seat_ids)
+    total = len(seat_ids) * 15
+
+    return render(request, 'booking/payment.html', {
+        'seats': seats,
+        'booking': booking,
+        'total': total,
+    })
+
+
+def payment_success(request):
+    if request.method == 'POST':
+        booking = request.session.get('pending_booking')
+        if not booking:
+            return redirect('hall')
+
+        seat_ids = booking['seat_ids']
+        for seat_id in seat_ids:
+            seat = Seat.objects.get(id=seat_id)
+            if seat.status == 'reserved':
+                Booking.objects.create(
+                    seat=seat,
+                    customer_name=booking['customer_name'],
+                )
+                seat.status = 'booked'
+                seat.reserved_until = None
+                seat.save()
+
+        del request.session['pending_booking']
+        return redirect('hall')
+
+    return redirect('hall')
+
+def payment_cancel(request):
+    if request.method == 'POST':
+        booking = request.session.get('pending_booking')
+        if booking:
+            seat_ids = booking['seat_ids']
+            Seat.objects.filter(id__in=seat_ids, status='reserved').update(
+                status='available',
+                reserved_until=None
+            )
+            del request.session['pending_booking']
+    return redirect('hall')
 
 def book_seat(request, seat_id):
     if request.method == 'POST':

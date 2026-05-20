@@ -187,6 +187,7 @@
 
     <script>
         const selectedSeats = [];
+        const isolatedSeatIds = {{ isolated_discounts|safe }};
 
         function selectSeat(el) {
             if (el.dataset.status === 'booked' || el.dataset.status === 'reserved') return;
@@ -197,11 +198,13 @@
                 el.classList.remove('selected');
                 el.style.background = '#EAF3DE';
                 el.style.borderColor = '#3B6D11';
+                el.style.color = '#27500A';
                 selectedSeats.splice(selectedSeats.indexOf(seatId), 1);
             } else {
                 el.classList.add('selected');
                 el.style.background = '#B5D4F4';
                 el.style.borderColor = '#185FA5';
+                el.style.color = '#0C447C';
                 selectedSeats.push(seatId);
             }
 
@@ -217,6 +220,7 @@
                 info.textContent = 'Click on a seat to select';
                 btn.style.display = 'none';
             } else {
+                const nonIsolatedCount = selectedSeats.filter(id => !isolatedSeatIds.hasOwnProperty(id)).length;
                 let msg = `Selected ${n} seat(s)`;
                 if (n % 2 !== 0) {
                     msg = `Add one more seat with {{ odd_discount }}%  discount to ensure your comfort!`;
@@ -227,30 +231,78 @@
         }
 
         function bookSeats() {
-            selectedSeats.forEach(seatId => {
+            if (selectedSeats.length === 0) return;
+
+            const n = selectedSeats.length;
+            document.getElementById('modal-seats-info').textContent = `You are booking ${n} seat(s)`;
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+            document.getElementById('modal-error').textContent = '';
+        }
+
+        function submitBooking() {
+            const name = document.getElementById('customer-name').value.trim();
+            const email = document.getElementById('customer-email').value.trim();
+
+            if (!name || !email) {
+                document.getElementById('modal-error').textContent = 'Please fill in all fields';
+                return;
+            }
+
+            const reservePromises = selectedSeats.map(seatId =>
                 fetch(`/book/${seatId}/`, {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': '{{ csrf_token }}',
                         'Content-Type': 'application/json',
                     },
+                }).then(res => res.json())
+            );
+
+            Promise.all(reservePromises).then(results => {
+                const allReserved = results.every(r => r.success);
+                if (!allReserved) {
+                    document.getElementById('modal-error').textContent = 'Some seats are no longer available.';
+                    return;
+                }
+
+                fetch('/confirm/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `customer_name=${encodeURIComponent(name)}&customer_email=${encodeURIComponent(email)}&seat_ids=${selectedSeats.join(',')}`
                 })
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        const el = document.querySelector(`[data-seat-id="${seatId}"]`);
-                        el.classList.remove('selected');
-                        el.classList.add('reserved');
-                        el.style.background = '#D3D1C7';
-                        el.style.borderColor = '#5F5E5A';
-                        el.dataset.status = 'reserved';
+                        closeModal();
+                        window.location.href = '/payment/'
+                    } else {
+                        document.getElementById('modal-error').textContent = 'Something went wrong. Please try again.';
                     }
+                })
+                .catch(() => {
+                    document.getElementById('modal-error').textContent = 'Connection error. Please try again.';
                 });
             });
-            selectedSeats.length = 0;
-            updateInfo();
         }
     </script>
-
+    <div id="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:100; justify-content:center; align-items:center;">
+        <div style="background:white; padding:2rem; border-radius:12px; width:320px;">
+            <h3>Confirm booking</h3>
+            <p id="modal-seats-info" style="color:#555; font-size:14px;"></p>
+            <input type="text" id="customer-name" placeholder="Your name" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:6px; box-sizing:border-box;">
+            <input type="email" id="customer-email" placeholder="Your email" style="width:100%; padding:8px; margin-bottom:16px; border:1px solid #ddd; border-radius:6px; box-sizing:border-box;">
+            <div style="display:flex; gap:10px;">
+                <button onclick="submitBooking()" style="flex:1; padding:10px; background:#185FA5; color:white; border:none; border-radius:6px; cursor:pointer;">Confirm</button>
+                <button onclick="closeModal()" style="flex:1; padding:10px; background:#ddd; border:none; border-radius:6px; cursor:pointer;">Cancel</button>
+            </div>
+            <p id="modal-error" style="color:red; font-size:13px; margin-top:8px;"></p>
+        </div>
+    </div>
 </body>
 </html>
