@@ -158,18 +158,29 @@
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
                     <span class="seat-badge">Seat {{ item.seat.number }}</span>
                     {% if item.discount > 0 %}
-                        <span style="text-decoration:line-through; color:#888; font-size:12px;">£{{ item.original_price }}</span>
-                        <span style="color:#3B6D11; font-size:13px;">£{{ item.final_price }} (-{{ item.discount }}%)</span>
+                        <span style="text-decoration:line-through; color:#888; font-size:12px;">£{{ item.original_price|floatformat:2  }}</span>
+                        <span style="color:#3B6D11; font-size:13px;">£{{ item.final_price|floatformat:2  }} (-{{ item.discount }}%)</span>
                     {% else %}
-                        <span style="font-size:13px;">£{{ item.final_price }}</span>
+                        <span style="font-size:13px;">£{{ item.final_price|floatformat:2  }}</span>
                     {% endif %}
                 </div>
             {% endfor %}
         </div>
     </div>
 
-    <div class="total">
-        Total: <span>£{{ total }}</span>
+    <div style="border-top: 1px solid #eee; padding-top: 1rem; margin-bottom: 1rem; font-size:14px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="color:#555;">Subtotal</span>
+            <span>£{{ subtotal|floatformat:2  }}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="color:#555;">VAT ({{ tax }}%)</span>
+            <span>£{{ total_tax|floatformat:2  }}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:16px; margin-top:8px;">
+            <span>Total</span>
+            <span style="color:#185FA5;">£{{ total|floatformat:2  }}</span>
+        </div>
     </div>
 
     <div class="timer" id="timer">
@@ -178,7 +189,7 @@
 
     <form method="POST" action="/payment/success/">
         {% csrf_token %}
-        <button type="submit" class="btn-pay">Pay now £{{ total }}</button>
+        <button type="submit" class="btn-pay">Pay now £{{ total|floatformat:2  }}</button>
     </form>
 
     <a href="/" class="btn-add">+ Add more seats</a>

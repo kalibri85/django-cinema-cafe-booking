@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Table, Seat, Booking
+from .models import Table, Seat, Booking, SeatPrice
 from .booking_logic import check_isolated_seats, get_discount
 from django.utils import timezone
 from datetime import timedelta
@@ -10,18 +10,31 @@ from django.shortcuts import render, redirect
 
 
 def hall(request):
+    pending = request.session.get('pending_booking', {})
+    pending_seat_ids = [int(sid) for sid in pending.get('seat_ids', [])]
+
+    if pending_seat_ids:
+        actual_reserved = list(Seat.objects.filter(
+            id__in=pending_seat_ids,
+            status='reserved'
+        ).values_list('id', flat=True))
+
+        if not actual_reserved:
+            del request.session['pending_booking']
+            pending_seat_ids = []
+        elif len(actual_reserved) != len(pending_seat_ids):
+            request.session['pending_booking']['seat_ids'] = [str(sid) for sid in actual_reserved]
+            request.session.modified = True
+            pending_seat_ids = actual_reserved
+
     row1 = Table.objects.prefetch_related('seats').filter(row=1).order_by('number')
     row2 = Table.objects.prefetch_related('seats').filter(row=2).order_by('number')
-    
+
     isolated_discounts = {}
-    
     for table in list(row1) + list(row2):
         for item in check_isolated_seats(table):
             isolated_discounts[item['seat_id']] = item['discount']
 
-    pending = request.session.get('pending_booking', {})
-    pending_seat_ids = [int(sid) for sid in pending.get('seat_ids', [])]        
-    
     odd_seat_discounts = {}
     if pending_seat_ids:
         odd_discount = get_discount('odd')
@@ -75,7 +88,10 @@ def payment(request):
     seat_ids = booking['seat_ids']
     seats = Seat.objects.filter(id__in=seat_ids).select_related('table')
 
-    SEAT_PRICE = 15
+    seat_price_obj = SeatPrice.objects.first()
+    SEAT_PRICE = float(seat_price_obj.price) if seat_price_obj else 15.00
+    TAX = float(seat_price_obj.tax) if seat_price_obj else 20.00
+
     odd_discount = get_discount('odd')
     isolated_discount = get_discount('isolated')
 
@@ -100,16 +116,23 @@ def payment(request):
         for seat in seats
     }
 
-    seat_details = [
-        {
+    seat_details = []
+    for seat in seats:
+        discount = discount_map[seat.id]
+        price_after_discount = round(SEAT_PRICE * (1 - discount / 100), 2)
+        tax_amount = round(price_after_discount * TAX / 100, 2)
+        final_price = round(price_after_discount + tax_amount, 2)
+        seat_details.append({
             'seat': seat,
             'original_price': SEAT_PRICE,
-            'discount': discount_map[seat.id],
-            'final_price': round(SEAT_PRICE * (1 - discount_map[seat.id] / 100), 2),
-        }
-        for seat in seats
-    ]
+            'discount': discount,
+            'price_after_discount': price_after_discount,
+            'tax_amount': tax_amount,
+            'final_price': final_price,
+        })
 
+    subtotal = round(sum(item['price_after_discount'] for item in seat_details), 2)
+    total_tax = round(sum(item['tax_amount'] for item in seat_details), 2)
     total = round(sum(item['final_price'] for item in seat_details), 2)
 
     is_odd = len([s for s in seats if s.id not in isolated_ids]) % 2 != 0
@@ -117,7 +140,10 @@ def payment(request):
     return render(request, 'booking/payment.html', {
         'seat_details': seat_details,
         'booking': booking,
+        'subtotal': subtotal,
+        'total_tax': total_tax,
         'total': total,
+        'tax': TAX,
         'is_odd': is_odd,
         'odd_discount': odd_discount,
     })

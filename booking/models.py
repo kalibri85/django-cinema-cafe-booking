@@ -27,6 +27,17 @@ class Seat(models.Model):
     def __str__(self):
         return f"Seat {self.number} - {self.status}"
 
+class SeatPrice(models.Model):
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=15.00)
+    tax = models.DecimalField(max_digits=5, decimal_places=2, default=20.00)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Seat price: £{self.price} (tax: {self.tax}%)"
+
+    class Meta:
+        verbose_name = 'Seat price'
+        verbose_name_plural = 'Seat price'
 
 class Booking(models.Model):
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
