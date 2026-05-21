@@ -73,25 +73,49 @@ def payment(request):
         return redirect('hall')
 
     seat_ids = booking['seat_ids']
-    seats = Seat.objects.filter(id__in=seat_ids)
-    total = len(seat_ids) * 15
+    seats = Seat.objects.filter(id__in=seat_ids).select_related('table')
 
-    isolated_ids = []
+    SEAT_PRICE = 15
+    odd_discount = get_discount('odd')
+    isolated_discount = get_discount('isolated')
+
+    isolated_ids = {
+        seat.id
+        for seat in seats
+        if all(s.status == 'booked' for s in seat.table.seats.all() if s.id != seat.id)
+    }
+
+    pending_seats_by_table = {}
     for seat in seats:
-        other_seats = seat.table.seats.all()
-        others_taken = all(
-            s.status in ['booked', 'reserved']
-            for s in other_seats if s.id != seat.id
-        )
-        if others_taken:
-            isolated_ids.append(seat.id)
+        pending_seats_by_table.setdefault(seat.table.id, []).append(seat)
 
-    non_isolated = [s for s in seats if s.id not in isolated_ids]
-    is_odd = len(non_isolated) % 2 != 0
-    odd_discount = get_discount('odd') if is_odd else 0
+    odd_ids = {
+        table_seats[1].id
+        for table_seats in pending_seats_by_table.values()
+        if len(table_seats) == 2
+    }
+
+    discount_map = {
+        seat.id: isolated_discount if seat.id in isolated_ids else odd_discount if seat.id in odd_ids else 0
+        for seat in seats
+    }
+
+    seat_details = [
+        {
+            'seat': seat,
+            'original_price': SEAT_PRICE,
+            'discount': discount_map[seat.id],
+            'final_price': round(SEAT_PRICE * (1 - discount_map[seat.id] / 100), 2),
+        }
+        for seat in seats
+    ]
+
+    total = round(sum(item['final_price'] for item in seat_details), 2)
+
+    is_odd = len([s for s in seats if s.id not in isolated_ids]) % 2 != 0
 
     return render(request, 'booking/payment.html', {
-        'seats': seats,
+        'seat_details': seat_details,
         'booking': booking,
         'total': total,
         'is_odd': is_odd,

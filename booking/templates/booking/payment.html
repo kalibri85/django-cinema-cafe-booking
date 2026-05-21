@@ -154,8 +154,16 @@
         <p><strong>Email:</strong> {{ booking.customer_email }}</p>
         <p><strong>Seats:</strong></p>
         <div class="seats-list">
-            {% for seat in seats %}
-                <span class="seat-badge">Seat {{ seat.number }}</span>
+            {% for item in seat_details %}
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                    <span class="seat-badge">Seat {{ item.seat.number }}</span>
+                    {% if item.discount > 0 %}
+                        <span style="text-decoration:line-through; color:#888; font-size:12px;">£{{ item.original_price }}</span>
+                        <span style="color:#3B6D11; font-size:13px;">£{{ item.final_price }} (-{{ item.discount }}%)</span>
+                    {% else %}
+                        <span style="font-size:13px;">£{{ item.final_price }}</span>
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
     </div>
