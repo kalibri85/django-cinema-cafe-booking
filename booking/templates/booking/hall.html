@@ -153,7 +153,16 @@
     </style>
 </head>
 <body>
-
+    {% if pending_seat_ids %}
+    <div style="background:#FFF3CD; border:1px solid #EF9F27; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-radius:8px;">
+        <span style="color:#633806; font-size:14px;">
+            You have {{ pending_seat_ids|length }} seat(s) reserved. Don't lose your reservation!
+        </span>
+        <a href="/payment/" style="background:#EF9F27; color:white; padding:8px 16px; margin-left: 10px; border-radius:6px; text-decoration:none; font-size:13px;">
+            Continue to payment →
+        </a>
+    </div>
+    {% endif %}
     <div class="screen">SCREEN</div>
 
     <div id="hall">
