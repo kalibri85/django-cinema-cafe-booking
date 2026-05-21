@@ -156,6 +156,7 @@ def payment_success(request):
             return redirect('hall')
 
         seat_ids = booking['seat_ids']
+        seats = []
         for seat_id in seat_ids:
             seat = Seat.objects.get(id=seat_id)
             if seat.status == 'reserved':
@@ -166,9 +167,21 @@ def payment_success(request):
                 seat.status = 'booked'
                 seat.reserved_until = None
                 seat.save()
+                seats.append(seats)
+        seat_price_obj = SeatPrice.objects.first()
+        SEAT_PRICE = float(seat_price_obj.price) if seat_price_obj else 15.00
+        TAX = float(seat_price_obj.tax) if seat_price_obj else 20.00
+        total = round(SEAT_PRICE * len(seats) * (1 + TAX / 100), 2)
 
+        customer_name = booking['customer_name']
+        customer_email = booking['customer_email']
         del request.session['pending_booking']
-        return redirect('hall')
+        return render(request, 'booking/booking_success.html', {
+            'customer_name': customer_name,
+            'customer_email': customer_email,
+            'seats': seats,
+            'total': total,
+        })
 
     return redirect('hall')
 

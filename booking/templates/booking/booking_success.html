@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Cafe — Booking Confirmed</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .checkmark {
+            width: 64px;
+            height: 64px;
+            background: #EAF3DE;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 32px;
+        }
+
+        h2 {
+            color: #27500A;
+            margin-top: 0;
+        }
+
+        .booking-details {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .booking-details p {
+            margin: 6px 0;
+            color: #555;
+        }
+
+        .booking-details strong {
+            color: #222;
+        }
+
+        .seats-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .seat-badge {
+            background: #FCEBEB;
+            border: 1px solid #A32D2D;
+            color: #791F1F;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 1.5rem;
+        }
+
+        .total span {
+            color: #185FA5;
+        }
+
+        .btn-home {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #185FA5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        .btn-home:hover {
+            background: #0C447C;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="checkmark">✓</div>
+    <h2>Booking Confirmed!</h2>
+    <p style="color:#555; font-size:14px;">Thank you for your booking. See you at Cinema Cafe!</p>
+
+    <div class="booking-details">
+        <p><strong>Name:</strong> {{ customer_name }}</p>
+        <p><strong>Email:</strong> {{ customer_email }}</p>
+        <p><strong>Seats:</strong></p>
+        <div class="seats-list">
+            {% for seat in seats %}
+                <span class="seat-badge">Seat {{ seat.number }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="total">
+        Total paid: <span>£{{ total|floatformat:2 }}</span>
+    </div>
+
+    <a href="/" class="btn-home">Back to hall</a>
+</div>
+
+</body>
+</html>
