@@ -1,145 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinema Cafe — Payment</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
+{% extends 'booking/base.html' %}
+{% load static %}
 
-        .payment-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            width: 380px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-        }
+{% block title %}Payment — Cinema Cafe{% endblock %}
 
-        h2 {
-            margin-top: 0;
-            color: #185FA5;
-        }
+{% block body_class %}page-centered{% endblock %}
 
-        .odd-banner {
-            background: #FFF3CD;
-            border: 1px solid #EF9F27;
-            color: #633806;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'booking/css/payment.css' %}">
+{% endblock %}
 
-        .booking-info {
-            background: #f5f5f5;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            font-size: 14px;
-        }
-
-        .booking-info p {
-            margin: 6px 0;
-            color: #555;
-        }
-
-        .booking-info strong {
-            color: #222;
-        }
-
-        .seats-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
-        }
-
-        .seat-badge {
-            background: #E6F1FB;
-            border: 1px solid #185FA5;
-            color: #185FA5;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-
-        .total {
-            font-size: 20px;
-            font-weight: bold;
-            color: #222;
-            margin-bottom: 1.5rem;
-        }
-
-        .total span {
-            color: #185FA5;
-        }
-
-        .timer {
-            font-size: 13px;
-            color: #E24B4A;
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-pay, .btn-add, .btn-cancel {
-            width: 100%;
-            box-sizing: border-box;
-            display: block;
-            text-align: center;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 12px;
-            margin-bottom: 8px;
-            text-decoration: none;
-        }
-
-        .btn-pay {
-            background: #185FA5;
-            color: white;
-            border: none;
-            font-size: 16px;
-        }
-
-        .btn-pay:hover {
-            background: #0C447C;
-        }
-
-        .btn-add {
-            background: #EAF3DE;
-            border: 1px solid #3B6D11;
-            color: #27500A;
-        }
-
-        .btn-add:hover {
-            background: #C0DD97;
-        }
-
-        .btn-cancel {
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .btn-cancel:hover {
-            color: #E24B4A;
-        }
-    </style>
-</head>
-<body>
-
+{% block content %}
 <div class="payment-card">
     <h2>Payment</h2>
 
@@ -155,31 +25,31 @@
         <p><strong>Seats:</strong></p>
         <div class="seats-list">
             {% for item in seat_details %}
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <div class="seats-price">
                     <span class="seat-badge">Seat {{ item.seat.number }}</span>
                     {% if item.discount > 0 %}
-                        <span style="text-decoration:line-through; color:#888; font-size:12px;">£{{ item.original_price|floatformat:2  }}</span>
-                        <span style="color:#3B6D11; font-size:13px;">£{{ item.final_price|floatformat:2  }} (-{{ item.discount }}%)</span>
+                        <span class="original-price">£{{ item.original_price|floatformat:2 }}</span>
+                        <span class="new-price">£{{ item.final_price|floatformat:2 }} (-{{ item.discount }}%)</span>
                     {% else %}
-                        <span style="font-size:13px;">£{{ item.final_price|floatformat:2  }}</span>
+                        <span>£{{ item.final_price|floatformat:2 }}</span>
                     {% endif %}
                 </div>
             {% endfor %}
         </div>
     </div>
 
-    <div style="border-top: 1px solid #eee; padding-top: 1rem; margin-bottom: 1rem; font-size:14px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-            <span style="color:#555;">Subtotal</span>
-            <span>£{{ subtotal|floatformat:2  }}</span>
+    <div class="subtotal-block">
+        <div class="subtotal">
+            <span class="title">Subtotal</span>
+            <span>£{{ subtotal|floatformat:2 }}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-            <span style="color:#555;">VAT ({{ tax }}%)</span>
-            <span>£{{ total_tax|floatformat:2  }}</span>
+        <div class="vat">
+            <span class="title">VAT ({{ tax }}%)</span>
+            <span>£{{ total_tax|floatformat:2 }}</span>
         </div>
-        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:16px; margin-top:8px;">
-            <span>Total</span>
-            <span style="color:#185FA5;">£{{ total|floatformat:2  }}</span>
+        <div class="total">
+            <span class="title">Total</span>
+            <span>£{{ total|floatformat:2 }}</span>
         </div>
     </div>
 
@@ -189,7 +59,7 @@
 
     <form method="POST" action="/payment/success/">
         {% csrf_token %}
-        <button type="submit" class="btn-pay">Pay now £{{ total|floatformat:2  }}</button>
+        <button type="submit" class="btn-pay">Pay now £{{ total|floatformat:2 }}</button>
     </form>
 
     <a href="/" class="btn-add">+ Add more seats</a>
@@ -199,25 +69,8 @@
         <button type="submit" class="btn-cancel">Cancel and go back</button>
     </form>
 </div>
+{% endblock %}
 
-<script>
-    let seconds = 600;
-
-    function updateTimer() {
-        const min = Math.floor(seconds / 60);
-        const sec = seconds % 60;
-        document.getElementById('countdown').textContent =
-            `${min}:${sec.toString().padStart(2, '0')}`;
-
-        if (seconds <= 0) {
-            document.getElementById('timer').textContent = 'Reservation expired!';
-            window.location.href = '/';
-        }
-        seconds--;
-    }
-
-    setInterval(updateTimer, 1000);
-</script>
-
-</body>
-</html>
+{% block extra_js %}
+<script src="{% static 'booking/js/payment.js' %}"></script>
+{% endblock %}

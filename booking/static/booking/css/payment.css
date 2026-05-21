@@ -1,0 +1,140 @@
+.payment-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 380px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-top: 0;
+    color: #185FA5;
+}
+
+.odd-banner {
+    background: #FFF3CD;
+    border: 1px solid #EF9F27;
+    color: #633806;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.seats-price {
+    display:flex; 
+    align-items:center; 
+    gap:8px; 
+    margin-bottom:4px;
+}
+
+.seats-price span {
+    font-size: 13px;
+}
+
+.original-price {
+    text-decoration:line-through; 
+    color:#888; 
+    font-size:12px;
+}
+
+.new-price {
+    color:#3B6D11; 
+}
+
+.subtotal-block {
+    border-top: 1px solid #eee; 
+    padding-top: 1rem; 
+    margin-bottom: 1rem; 
+    font-size:14px;
+}
+
+.subtotal {
+    display:flex; 
+    justify-content:space-between; 
+    margin-bottom:4px;
+}
+
+.subtotal span.title {
+    color:#555;
+}
+
+.vat {
+    display:flex; 
+    justify-content:space-between; 
+    margin-bottom:4px;
+}
+
+.total {
+    display:flex; 
+    justify-content:space-between; 
+    font-weight:bold; 
+    font-size:16px; 
+    margin-top:8px;
+}    
+
+.total span {
+    color: #185FA5;
+}
+
+.total span.title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 1.5rem;
+}
+
+.timer {
+    font-size: 13px;
+    color: #E24B4A;
+    margin-bottom: 1.5rem;
+}
+
+.btn-pay, .btn-add, .btn-cancel {
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 12px;
+    margin-bottom: 8px;
+    text-decoration: none;
+}
+
+.btn-pay {
+    background: #185FA5;
+    color: white;
+    border: none;
+    font-size: 16px;
+}
+
+.btn-pay:hover {
+    background: #0C447C;
+}
+
+.btn-add {
+    background: #EAF3DE;
+    border: 1px solid #3B6D11;
+    color: #27500A;
+}
+
+.btn-add:hover {
+    background: #C0DD97;
+}
+
+.btn-cancel {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    color: #E24B4A;
+}
