@@ -38,14 +38,42 @@ class SeatPrice(models.Model):
     class Meta:
         verbose_name = 'Seat price'
         verbose_name_plural = 'Seat price'
+class Movie(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    poster = models.ImageField(upload_to='posters/', blank=True, null=True)
+
+    def __str__(self):
+        return self.title   
+    
+class Session(models.Model):
+    SESSION_CHOICES = [
+        ('day', 'Day'),
+        ('evening', 'Evening'),
+    ]
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, null=True, blank=True)
+    date = models.DateField()
+    session_type = models.CharField(max_length=10, choices=SESSION_CHOICES)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ['date', 'session_type']
+        ordering = ['date', 'session_type']
+
+    def __str__(self):
+        return f"{self.date} — {self.session_type}"         
 
 class Booking(models.Model):
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True, blank=True)
     customer_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ['seat', 'session']
+
     def __str__(self):
-        return f"{self.customer_name} - {self.seat}"
+        return f"{self.customer_name} - {self.seat} - {self.session}"
     
 class Discount(models.Model):
     DISCOUNT_TYPE_CHOICES = [
@@ -59,3 +87,4 @@ class Discount(models.Model):
 
     def __str__(self):
         return f"{self.discount_type} - {self.percentage}%"    
+     
