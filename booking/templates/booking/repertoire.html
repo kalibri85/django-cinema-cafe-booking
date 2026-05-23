@@ -1,0 +1,60 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block title %}Repertoire — Cinema Cafe{% endblock %}
+
+{% block body_class %}page-hall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'booking/css/repertoire.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="repertoire-wrapper">
+    <h1>This week</h1>
+
+    <div class="filters">
+        <div class="day-filters">
+            {% for day in week_days %}
+                <a href="?date={{ day|date:'Y-m-d' }}&type={{ selected_type }}"
+                   class="day-btn {% if day|date:'Y-m-d' == selected_date %}active{% endif %}">
+                    <span class="day-name">{{ day|date:"D" }}</span>
+                    <span class="day-num">{{ day|date:"d" }}</span>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="type-filters">
+            <a href="?date={{ selected_date }}&type="
+               class="type-btn {% if not selected_type %}active{% endif %}">All</a>
+            <a href="?date={{ selected_date }}&type=day"
+               class="type-btn {% if selected_type == 'day' %}active{% endif %}">Day</a>
+            <a href="?date={{ selected_date }}&type=evening"
+               class="type-btn {% if selected_type == 'evening' %}active{% endif %}">Evening</a>
+        </div>
+    </div>
+
+    <div class="sessions-grid">
+        {% for session in sessions %}
+        <div class="session-card">
+            {% if session.movie.poster %}
+                <img src="{{ session.movie.poster.url }}" alt="{{ session.movie.title }}">
+            {% else %}
+                <div class="no-poster">No poster</div>
+            {% endif %}
+            <div class="session-info">
+                <h3>{{ session.movie.title }}</h3>
+                <p class="session-type">{{ session.get_session_type_display }} session</p>
+                <p class="session-date">{{ session.date|date:"D, d M" }}</p>
+                {% if session.movie.description %}
+                    <p class="session-desc">{{ session.movie.description }}</p>
+                {% endif %}
+                <a href="/?session_id={{ session.id }}" class="btn-book-session">Book seats</a>
+            </div>
+        </div>
+        {% empty %}
+            <p class="no-sessions">No sessions available for this day.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,13 +1,38 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Table, Seat, Booking, SeatPrice
+from datetime import date, timedelta
+from .models import Table, Seat, Booking, Discount, SeatPrice,Session, Movie
 from .booking_logic import check_isolated_seats, get_discount
 from django.utils import timezone
 from datetime import timedelta
 from .forms import BookingForm
 from django.shortcuts import render, redirect
 
+def repertoire(request):
+    today = date.today()
+    week_days = [today + timedelta(days=i) for i in range(7)]
+    
+    selected_date = request.GET.get('date', str(today))
+    selected_type = request.GET.get('type', '')
+    
+    sessions = Session.objects.filter(
+        date__gte=today,
+        date__lte=today + timedelta(days=6),
+        is_active=True
+    ).select_related('movie')
+    
+    if selected_date:
+        sessions = sessions.filter(date=selected_date)
+    if selected_type:
+        sessions = sessions.filter(session_type=selected_type)
 
+    return render(request, 'booking/repertoire.html', {
+        'sessions': sessions,
+        'week_days': week_days,
+        'selected_date': selected_date,
+        'selected_type': selected_type,
+        'today': today,
+    })
 
 def hall(request):
     pending = request.session.get('pending_booking', {})

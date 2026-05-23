@@ -4,11 +4,48 @@ body {
     margin: 0;
 }
 
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.nav-logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #185FA5;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: #185FA5;
+}
+
 .page-centered {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
 }
 
 .page-hall {
@@ -16,6 +53,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 2rem;
+    margin: 2rem 0;
 }
 
 .seats-list {

@@ -1,15 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Cinema Cafe{% endblock %}</title>
-    {% load static %}
     <link rel="stylesheet" href="{% static 'booking/css/base.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
-<body class="{% block body_class %}{% endblock %}">
-    {% block content %}{% endblock %}
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">Cinema Cafe</div>
+        <ul class="nav-links">
+            <li><a href="#">About</a></li>
+            <li><a href="/repertoire/">Book</a></li>
+            <li><a href="#">Menu</a></li>
+            <li><a href="#">Contacts</a></li>
+        </ul>
+    </nav>
+
+    <div class="{% block body_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </div>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>
