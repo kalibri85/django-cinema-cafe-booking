@@ -3,19 +3,21 @@
     <div class="table-circle">T{{ table.number }}</div>
     <div class="seats-row">
         {% for seat in table.seats.all %}
+            {% with seat_status=status_map|get_item:seat.id %}
             <div class="seat-wrapper">
                 {% if seat.id in odd_seat_discounts %}
                     <div class="discount-badge" style="background:#EF9F27;">-{{ odd_seat_discounts|get_item:seat.id }}%</div>
                 {% elif seat.id in isolated_discounts %}
                     <div class="discount-badge">-{{ isolated_discounts|get_item:seat.id }}%</div>
                 {% endif %}
-                <div class="seat {{ seat.status }}"
+                <div class="seat {% if seat_status %}{{ seat_status.status }}{% else %}available{% endif %}"
                      data-seat-id="{{ seat.id }}"
-                     data-status="{{ seat.status }}"
+                     data-status="{% if seat_status %}{{ seat_status.status }}{% else %}available{% endif %}"
                      onclick="selectSeat(this)">
                     {{ seat.number }}
                 </div>
             </div>
+            {% endwith %}
         {% endfor %}
     </div>
 </div>

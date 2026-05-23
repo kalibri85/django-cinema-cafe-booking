@@ -13,6 +13,11 @@
 <div class="card">
     <div class="checkmark">✓</div>
     <h2>Booking Confirmed!</h2>
+    {% if current_session %}
+    <p style="color:#555; font-size:13px; margin-bottom:1rem;">
+        {{ current_session.movie.title }} · {{ current_session.date|date:"D, d M Y" }} · {{ current_session.get_session_type_display }} session
+    </p>
+    {% endif %}
     <p style="color:#555; font-size:14px;">Thank you for your booking. See you at Cinema Cafe!</p>
 
     <div class="booking-details">

@@ -10,7 +10,6 @@ class Table(models.Model):
     def __str__(self):
         return f"Row {self.row}, Table {self.number}"
 
-
 class Seat(models.Model):
     STATUS_CHOICES = [
         ('available', 'Available'),
@@ -26,7 +25,7 @@ class Seat(models.Model):
 
     def __str__(self):
         return f"Seat {self.number} - {self.status}"
-
+    
 class SeatPrice(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, default=15.00)
     tax = models.DecimalField(max_digits=5, decimal_places=2, default=20.00)
@@ -62,6 +61,24 @@ class Session(models.Model):
 
     def __str__(self):
         return f"{self.date} — {self.session_type}"         
+
+class SeatStatus(models.Model):
+    STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('booked', 'Booked'),
+        ('reserved', 'Reserved'),
+    ]
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE, related_name='statuses')
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name='seat_statuses')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
+    reserved_until = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ['seat', 'session']
+
+    def __str__(self):
+        return f"{self.seat} — {self.session} — {self.status}"
+        
 
 class Booking(models.Model):
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE)

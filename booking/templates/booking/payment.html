@@ -11,6 +11,12 @@
 
 {% block content %}
 <div class="payment-card">
+    {% if current_session %}
+    <div style="font-size:13px; color:#555; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid #eee;">
+        {{ current_session.movie.title }} · {{ current_session.date|date:"D, d M Y" }} · {{ current_session.get_session_type_display }} session
+    </div>
+    {% endif %}
+
     <h2>Payment</h2>
 
     {% if is_odd %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from datetime import date, timedelta
-from .models import Table, Seat, Booking, Discount, SeatPrice,Session, Movie
+from .models import Table, Seat, Booking, Discount, SeatPrice,Session, Movie, SeatStatus
 from .booking_logic import check_isolated_seats, get_discount
 from django.utils import timezone
 from datetime import timedelta
@@ -35,14 +35,33 @@ def repertoire(request):
     })
 
 def hall(request):
+    session_id = request.GET.get('session_id') or request.session.get('current_session_id')
+    
+    if not session_id:
+        return redirect('repertoire')
+    
+    try:
+        current_session = Session.objects.get(id=session_id)
+    except Session.DoesNotExist:
+        return redirect('repertoire')
+    
+    request.session['current_session_id'] = int(session_id)
+
+    row1 = Table.objects.prefetch_related('seats').filter(row=1).order_by('number')
+    row2 = Table.objects.prefetch_related('seats').filter(row=2).order_by('number')
+
+    seat_statuses = SeatStatus.objects.filter(session=current_session)
+    status_map = {ss.seat_id: ss for ss in seat_statuses}
+
     pending = request.session.get('pending_booking', {})
     pending_seat_ids = [int(sid) for sid in pending.get('seat_ids', [])]
 
     if pending_seat_ids:
-        actual_reserved = list(Seat.objects.filter(
-            id__in=pending_seat_ids,
+        actual_reserved = list(SeatStatus.objects.filter(
+            seat_id__in=pending_seat_ids,
+            session=current_session,
             status='reserved'
-        ).values_list('id', flat=True))
+        ).values_list('seat_id', flat=True))
 
         if not actual_reserved:
             del request.session['pending_booking']
@@ -52,12 +71,9 @@ def hall(request):
             request.session.modified = True
             pending_seat_ids = actual_reserved
 
-    row1 = Table.objects.prefetch_related('seats').filter(row=1).order_by('number')
-    row2 = Table.objects.prefetch_related('seats').filter(row=2).order_by('number')
-
     isolated_discounts = {}
     for table in list(row1) + list(row2):
-        for item in check_isolated_seats(table):
+        for item in check_isolated_seats(table, status_map):
             isolated_discounts[item['seat_id']] = item['discount']
 
     odd_seat_discounts = {}
@@ -69,7 +85,9 @@ def hall(request):
         for table in list(row1) + list(row2):
             if table.id in pending_table_ids:
                 for seat in table.seats.all():
-                    if seat.status == 'available' and seat.id not in pending_seat_ids:
+                    seat_status = status_map.get(seat.id)
+                    current_status = seat_status.status if seat_status else 'available'
+                    if current_status == 'available' and seat.id not in pending_seat_ids:
                         odd_seat_discounts[seat.id] = odd_discount
 
     return render(request, 'booking/hall.html', {
@@ -81,6 +99,8 @@ def hall(request):
         'pending_seat_ids': pending_seat_ids,
         'pending_name': pending.get('customer_name', ''),
         'pending_email': pending.get('customer_email', ''),
+        'status_map': status_map,
+        'current_session': current_session,
     })
 
 def confirm_booking(request):
@@ -109,6 +129,9 @@ def payment(request):
     booking = request.session.get('pending_booking')
     if not booking:
         return redirect('hall')
+    
+    session_id = request.session.get('current_session_id')
+    current_session = Session.objects.get(id=session_id) if session_id else None
 
     seat_ids = booking['seat_ids']
     seats = Seat.objects.filter(id__in=seat_ids).select_related('table')
@@ -171,8 +194,8 @@ def payment(request):
         'tax': TAX,
         'is_odd': is_odd,
         'odd_discount': odd_discount,
+        'current_session': current_session,
     })
-
 
 def payment_success(request):
     if request.method == 'POST':
@@ -180,19 +203,31 @@ def payment_success(request):
         if not booking:
             return redirect('hall')
 
+        session_id = request.session.get('current_session_id')
+        if not session_id:
+            return redirect('repertoire')
+
+        current_session = Session.objects.get(id=session_id)
         seat_ids = booking['seat_ids']
         seats = []
+
         for seat_id in seat_ids:
             seat = Seat.objects.get(id=seat_id)
-            if seat.status == 'reserved':
-                Booking.objects.create(
-                    seat=seat,
-                    customer_name=booking['customer_name'],
-                )
-                seat.status = 'booked'
-                seat.reserved_until = None
-                seat.save()
-                seats.append(seats)
+            try:
+                seat_status = SeatStatus.objects.get(seat=seat, session=current_session)
+                if seat_status.status == 'reserved':
+                    Booking.objects.create(
+                        seat=seat,
+                        session=current_session,
+                        customer_name=booking['customer_name'],
+                    )
+                    seat_status.status = 'booked'
+                    seat_status.reserved_until = None
+                    seat_status.save()
+                    seats.append(seat)
+            except SeatStatus.DoesNotExist:
+                pass
+
         seat_price_obj = SeatPrice.objects.first()
         SEAT_PRICE = float(seat_price_obj.price) if seat_price_obj else 15.00
         TAX = float(seat_price_obj.tax) if seat_price_obj else 20.00
@@ -201,11 +236,13 @@ def payment_success(request):
         customer_name = booking['customer_name']
         customer_email = booking['customer_email']
         del request.session['pending_booking']
+
         return render(request, 'booking/booking_success.html', {
             'customer_name': customer_name,
             'customer_email': customer_email,
             'seats': seats,
             'total': total,
+            'current_session': current_session,
         })
 
     return redirect('hall')
@@ -214,32 +251,48 @@ def payment_cancel(request):
     if request.method == 'POST':
         booking = request.session.get('pending_booking')
         if booking:
-            seat_ids = booking['seat_ids']
-            Seat.objects.filter(id__in=seat_ids, status='reserved').update(
-                status='available',
-                reserved_until=None
-            )
+            session_id = request.session.get('current_session_id')
+            if session_id:
+                current_session = Session.objects.get(id=session_id)
+                seat_ids = booking['seat_ids']
+                SeatStatus.objects.filter(
+                    seat_id__in=seat_ids,
+                    session=current_session,
+                    status='reserved'
+                ).update(status='available', reserved_until=None)
             del request.session['pending_booking']
     return redirect('hall')
 
 def book_seat(request, seat_id):
     if request.method == 'POST':
         seat = Seat.objects.get(id=seat_id)
+        session_id = request.session.get('current_session_id')
 
-        if seat.status == 'reserved':
-            if seat.reserved_until and seat.reserved_until < timezone.now():
-                seat.status = 'available'
-                seat.reserved_until = None
-                seat.save()
+        if not session_id:
+            return JsonResponse({'success': False, 'message': 'No session selected'})
+
+        current_session = Session.objects.get(id=session_id)
+
+        seat_status, created = SeatStatus.objects.get_or_create(
+            seat=seat,
+            session=current_session,
+            defaults={'status': 'available'}
+        )
+
+        if seat_status.status == 'reserved':
+            if seat_status.reserved_until and seat_status.reserved_until < timezone.now():
+                seat_status.status = 'available'
+                seat_status.reserved_until = None
+                seat_status.save()
             else:
                 return JsonResponse({'success': False, 'message': 'Seat is temporarily reserved'})
 
-        if seat.status != 'available':
+        if seat_status.status != 'available':
             return JsonResponse({'success': False, 'message': 'Seat is not available'})
 
-        seat.status = 'reserved'
-        seat.reserved_until = timezone.now() + timedelta(minutes=10)
-        seat.save()
+        seat_status.status = 'reserved'
+        seat_status.reserved_until = timezone.now() + timedelta(minutes=10)
+        seat_status.save()
 
         return JsonResponse({'success': True, 'message': 'Seat reserved'})
 
