@@ -63,7 +63,7 @@
 .session-title {
     font-size: 22px;
     font-weight: bold;
-    color: #222;
+    color: #fff;
     margin: 0;
 }
 
@@ -84,17 +84,17 @@
 
 .btn-back {
     font-size: 13px;
-    color: #888;
+    color: #b0c6e6;
     text-decoration: none;
 }
 
 .btn-back:hover {
-    color: #185FA5;
+    color: #ffffff;
 }
 
 .session-header-date {
     margin: 0 0 1rem;
-    color: #555;
+    color: #b0c6e6;
     font-size: 14px;
 }
 
@@ -115,7 +115,7 @@
 
 .session-header-date {
     margin: 0;
-    color: #555;
+    color: #ddd;
     font-size: 14px;
 }
 
@@ -228,6 +228,7 @@
 .legend-item {
     display: flex;
     align-items: center;
+    color: #fff;
     gap: 6px;
     font-size: 13px;
 }
@@ -242,14 +243,14 @@
 .info {
     margin-top: 1.5rem;
     font-size: 14px;
-    color: #555;
+    color: #ffffff;
     min-height: 20px;
 }
 
 .btn-book {
     margin-top: 1rem;
     padding: 10px 28px;
-    background: #185FA5;
+    background: #1a5fa8;
     color: white;
     border: none;
     border-radius: 8px;

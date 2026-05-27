@@ -1,6 +1,6 @@
 body {
-    font-family: sans-serif;
-    background: #f5f5f5;
+    font-family: 'Montserrat';
+    background: #0f0d1a;
     margin: 0;
 }
 
@@ -10,16 +10,16 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background: white;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    background: linear-gradient(180deg, #13012c 0%, #0f0d1a 100%);
     box-sizing: border-box;
     z-index: 10;
+    min-height: 100px;
 }
 
 .nav-logo {
-    font-size: 18px;
-    font-weight: bold;
-    color: #185FA5;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
 }
 
 .nav-links {
@@ -32,12 +32,12 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: #555;
+    color: #b0c6e6;
     font-size: 14px;
 }
 
 .nav-links a:hover {
-    color: #185FA5;
+    color: #ffffff;
 }
 
 .page-centered {
