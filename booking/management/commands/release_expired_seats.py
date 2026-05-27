@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from booking.models import Seat
+from booking.models import SeatStatus
 
 
 class Command(BaseCommand):
@@ -10,7 +10,7 @@ class Command(BaseCommand):
     Runs as a scheduled management command.
     """
     def handle(self, *args, **kwargs):
-        expired = Seat.objects.filter(
+        expired = SeatStatus.objects.filter(
             status='reserved',
             reserved_until__lt=timezone.now()
         )

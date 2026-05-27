@@ -1,10 +1,13 @@
 from django.contrib import admin
-from .models import Table, Seat, Booking, Discount, SeatPrice, Session, Movie
+from .models import Table, Seat, SeatStatus, Booking, Discount, SeatPrice, Session, Movie
 
 
 class SeatAdmin(admin.ModelAdmin):
-    list_display = ['number', 'table', 'status']
-    list_filter = ['status']
+    list_display = ['number', 'table']
+
+class SeatStatusAdmin(admin.ModelAdmin):
+    list_display = ['seat', 'session', 'status']
+    list_filter = ['status', 'session']
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ['title']    
@@ -29,6 +32,7 @@ class DiscountAdmin(admin.ModelAdmin):
 
 admin.site.register(Table, TableAdmin)
 admin.site.register(Seat, SeatAdmin)
+admin.site.register(SeatStatus, SeatStatusAdmin)
 admin.site.register(SeatPrice, SeatPriceAdmin)
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Session, SessionAdmin)

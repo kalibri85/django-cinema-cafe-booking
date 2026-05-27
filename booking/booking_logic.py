@@ -22,17 +22,19 @@ def check_isolated_seats(table, status_map=None):
     seats = table.seats.all()
     isolated = []
 
-    for seat in seats:
-        seat_status = status_map.get(seat.id) if status_map else None
-        current_status = seat_status.status if seat_status else seat.status
+    def get_status(seat):
+        if status_map:
+            ss = status_map.get(seat.id)
+            return ss.status if ss else 'available'
+        return 'available'
 
-        if current_status == 'available':
+    for seat in seats:
+        if get_status(seat) == 'available':
             other_seats = [s for s in seats if s.id != seat.id]
             all_others_booked = all(
-                (status_map.get(s.id).status if status_map and status_map.get(s.id) else s.status) == 'booked'
+                get_status(s) == 'booked'
                 for s in other_seats
             )
-
             if all_others_booked:
                 percentage = get_discount('isolated')
                 isolated.append({

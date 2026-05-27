@@ -11,20 +11,11 @@ class Table(models.Model):
         return f"Row {self.row}, Table {self.number}"
 
 class Seat(models.Model):
-    STATUS_CHOICES = [
-        ('available', 'Available'),
-        ('booked', 'Booked'),
-        ('reserved', 'Reserved'),
-    ]
-
     table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='seats')
     number = models.IntegerField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
-    # null=True - field can be null in the database; blank=True - field can be empty in the form
-    reserved_until = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"Seat {self.number} - {self.status}"
+        return f"Seat {self.number}"
     
 class SeatPrice(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, default=15.00)

@@ -1,26 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from datetime import date, timedelta
-from .models import Table, Seat, Booking, Discount, SeatPrice,Session, Movie, SeatStatus
+from .models import Table, Seat, Booking, Discount, SeatPrice, Session, Movie, SeatStatus
 from .booking_logic import check_isolated_seats, get_discount
 from django.utils import timezone
-from datetime import timedelta
 from .forms import BookingForm
-from django.shortcuts import render, redirect
+
 
 def repertoire(request):
     today = date.today()
     week_days = [today + timedelta(days=i) for i in range(7)]
-    
+
     selected_date = request.GET.get('date', str(today))
     selected_type = request.GET.get('type', '')
-    
+
     sessions = Session.objects.filter(
         date__gte=today,
         date__lte=today + timedelta(days=6),
         is_active=True
     ).select_related('movie')
-    
+
     if selected_date:
         sessions = sessions.filter(date=selected_date)
     if selected_type:
@@ -34,17 +33,18 @@ def repertoire(request):
         'today': today,
     })
 
+
 def hall(request):
     session_id = request.GET.get('session_id') or request.session.get('current_session_id')
-    
+
     if not session_id:
         return redirect('repertoire')
-    
+
     try:
         current_session = Session.objects.get(id=session_id)
     except Session.DoesNotExist:
         return redirect('repertoire')
-    
+
     request.session['current_session_id'] = int(session_id)
 
     row1 = Table.objects.prefetch_related('seats').filter(row=1).order_by('number')
@@ -103,6 +103,7 @@ def hall(request):
         'current_session': current_session,
     })
 
+
 def confirm_booking(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
@@ -125,11 +126,12 @@ def confirm_booking(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request'})
 
+
 def payment(request):
     booking = request.session.get('pending_booking')
     if not booking:
         return redirect('hall')
-    
+
     session_id = request.session.get('current_session_id')
     current_session = Session.objects.get(id=session_id) if session_id else None
 
@@ -143,10 +145,18 @@ def payment(request):
     odd_discount = get_discount('odd')
     isolated_discount = get_discount('isolated')
 
+    seat_status_map = {
+        ss.seat_id: ss.status
+        for ss in SeatStatus.objects.filter(session=current_session)
+    } if current_session else {}
+
     isolated_ids = {
         seat.id
         for seat in seats
-        if all(s.status == 'booked' for s in seat.table.seats.all() if s.id != seat.id)
+        if all(
+            seat_status_map.get(s.id, 'available') == 'booked'
+            for s in seat.table.seats.all() if s.id != seat.id
+        )
     }
 
     pending_seats_by_table = {}
@@ -196,6 +206,7 @@ def payment(request):
         'odd_discount': odd_discount,
         'current_session': current_session,
     })
+
 
 def payment_success(request):
     if request.method == 'POST':
@@ -247,6 +258,7 @@ def payment_success(request):
 
     return redirect('hall')
 
+
 def payment_cancel(request):
     if request.method == 'POST':
         booking = request.session.get('pending_booking')
@@ -262,6 +274,7 @@ def payment_cancel(request):
                 ).update(status='available', reserved_until=None)
             del request.session['pending_booking']
     return redirect('hall')
+
 
 def book_seat(request, seat_id):
     if request.method == 'POST':
@@ -300,12 +313,19 @@ def book_seat(request, seat_id):
 
 
 def get_seats_status(request):
+    session_id = request.session.get('current_session_id')
     seats = Seat.objects.select_related('table').all()
+
+    status_map = {}
+    if session_id:
+        statuses = SeatStatus.objects.filter(session_id=session_id)
+        status_map = {ss.seat_id: ss.status for ss in statuses}
+
     data = [
         {
             'id': seat.id,
             'number': seat.number,
-            'status': seat.status,
+            'status': status_map.get(seat.id, 'available'),
             'table_id': seat.table.id,
         }
         for seat in seats

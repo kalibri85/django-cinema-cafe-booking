@@ -1,0 +1,441 @@
+[
+{
+  "model": "booking.table",
+  "pk": 1,
+  "fields": {
+    "row": 1,
+    "number": 1
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 2,
+  "fields": {
+    "row": 1,
+    "number": 2
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 3,
+  "fields": {
+    "row": 1,
+    "number": 3
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 4,
+  "fields": {
+    "row": 1,
+    "number": 4
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 5,
+  "fields": {
+    "row": 2,
+    "number": 1
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 6,
+  "fields": {
+    "row": 2,
+    "number": 2
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 7,
+  "fields": {
+    "row": 2,
+    "number": 3
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 8,
+  "fields": {
+    "row": 2,
+    "number": 4
+  }
+},
+{
+  "model": "booking.table",
+  "pk": 9,
+  "fields": {
+    "row": 2,
+    "number": 5
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 1,
+  "fields": {
+    "table": 1,
+    "number": 1
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 2,
+  "fields": {
+    "table": 1,
+    "number": 2
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 3,
+  "fields": {
+    "table": 2,
+    "number": 3
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 4,
+  "fields": {
+    "table": 2,
+    "number": 4
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 5,
+  "fields": {
+    "table": 3,
+    "number": 5
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 6,
+  "fields": {
+    "table": 3,
+    "number": 6
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 7,
+  "fields": {
+    "table": 4,
+    "number": 7
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 8,
+  "fields": {
+    "table": 4,
+    "number": 8
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 9,
+  "fields": {
+    "table": 5,
+    "number": 9
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 10,
+  "fields": {
+    "table": 5,
+    "number": 10
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 11,
+  "fields": {
+    "table": 6,
+    "number": 11
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 12,
+  "fields": {
+    "table": 6,
+    "number": 12
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 13,
+  "fields": {
+    "table": 7,
+    "number": 13
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 14,
+  "fields": {
+    "table": 7,
+    "number": 14
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 15,
+  "fields": {
+    "table": 8,
+    "number": 15
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 16,
+  "fields": {
+    "table": 8,
+    "number": 16
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 17,
+  "fields": {
+    "table": 9,
+    "number": 17
+  }
+},
+{
+  "model": "booking.seat",
+  "pk": 18,
+  "fields": {
+    "table": 9,
+    "number": 18
+  }
+},
+{
+  "model": "booking.seatprice",
+  "pk": 1,
+  "fields": {
+    "price": "12.00",
+    "tax": "20.00",
+    "updated_at": "2026-05-27T19:29:09.790Z"
+  }
+},
+{
+  "model": "booking.movie",
+  "pk": 1,
+  "fields": {
+    "title": "Hitch",
+    "description": "Described as New York City's finest date doctor, suave matchmaker Alex Hitchens can guarantee that any man can get the girl of his dreams if he overcomes his fears and follows his infallible advice. And then, nerdy accountant Albert Brennaman enters the picture. As the hopeless man enlists the doctor's help to catch the attention of beautiful heiress Allegra Cole, something unexpected happens: Hitch discovers inquisitive gossip columnist Sara Melas, his dream match. Now, the self-assured charmer must put his expertise to good use to make this happen. However, can the silver-tongued romance expert survive love's delicate complications?",
+    "poster": "posters/hitch.jpeg"
+  }
+},
+{
+  "model": "booking.movie",
+  "pk": 2,
+  "fields": {
+    "title": "The Devil Wears Prada 2",
+    "description": "Twenty years after making their iconic turns as Miranda, Andy, Emily and Nigel—Meryl Streep, Anne Hathaway, Emily Blunt and Stanley Tucci return to the fashionable streets of New York City and the sleek offices of Runway Magazine in 20th Century Studios’ “The Devil Wears Prada 2,” the eagerly awaited sequel to the 2006 phenomenon that defined a generation. The film is directed by David Frankel, written by Aline Brosh McKenna, produced by Wendy Finerman, and executive produced by Michael Bederman, Karen Rosenfelt and Aline Brosh McKenna.",
+    "poster": "posters/dwp2.jpg"
+  }
+},
+{
+  "model": "booking.movie",
+  "pk": 3,
+  "fields": {
+    "title": "The Sheep Detectives",
+    "description": "In this witty, new breed of mystery, George (Hugh Jackman) is a shepherd who reads detective novels to his beloved sheep every night, assuming they can’t possibly understand. But when a mysterious incident disrupts life on the farm, the sheep realise they must become the detectives. As they follow the clues and investigate human suspects, they prove that even sheep can be brilliant crime-solvers.",
+    "poster": "posters/sd.jpg"
+  }
+},
+{
+  "model": "booking.movie",
+  "pk": 4,
+  "fields": {
+    "title": "The Super Mario Galaxy Movie",
+    "description": "Mario ventures into space, exploring cosmic worlds and tackling galactic challenges far from the familiar Mushroom Kingdom.",
+    "poster": "posters/9f9282f762aa5b0faf6a561ba28f5f05.jpg"
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 1,
+  "fields": {
+    "movie": 2,
+    "date": "2026-05-27",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 2,
+  "fields": {
+    "movie": 4,
+    "date": "2026-05-27",
+    "session_type": "day",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 3,
+  "fields": {
+    "movie": 2,
+    "date": "2026-05-28",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 4,
+  "fields": {
+    "movie": 3,
+    "date": "2026-05-28",
+    "session_type": "day",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 5,
+  "fields": {
+    "movie": 3,
+    "date": "2026-05-29",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 6,
+  "fields": {
+    "movie": 4,
+    "date": "2026-05-29",
+    "session_type": "day",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 7,
+  "fields": {
+    "movie": 1,
+    "date": "2026-05-30",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 8,
+  "fields": {
+    "movie": 3,
+    "date": "2026-05-30",
+    "session_type": "day",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 9,
+  "fields": {
+    "movie": 2,
+    "date": "2026-05-31",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 10,
+  "fields": {
+    "movie": 4,
+    "date": "2026-05-31",
+    "session_type": "day",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 11,
+  "fields": {
+    "movie": 2,
+    "date": "2026-06-01",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 12,
+  "fields": {
+    "movie": 1,
+    "date": "2026-06-02",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 13,
+  "fields": {
+    "movie": 3,
+    "date": "2026-06-23",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.session",
+  "pk": 14,
+  "fields": {
+    "movie": 4,
+    "date": "2026-06-04",
+    "session_type": "evening",
+    "is_active": true
+  }
+},
+{
+  "model": "booking.seatstatus",
+  "pk": 1,
+  "fields": {
+    "seat": 3,
+    "session": 7,
+    "status": "booked",
+    "reserved_until": null
+  }
+},
+{
+  "model": "booking.booking",
+  "pk": 3,
+  "fields": {
+    "seat": 3,
+    "session": 7,
+    "customer_name": "Zanna",
+    "created_at": "2026-05-27T19:57:45.879Z"
+  }
+},
+{
+  "model": "booking.discount",
+  "pk": 1,
+  "fields": {
+    "discount_type": "odd",
+    "percentage": 15,
+    "is_active": true
+  }
+},
+{
+  "model": "booking.discount",
+  "pk": 2,
+  "fields": {
+    "discount_type": "isolated",
+    "percentage": 30,
+    "is_active": true
+  }
+}
+]
