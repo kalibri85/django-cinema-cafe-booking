@@ -7,7 +7,8 @@
 .hero {
     position: relative;
     width: 100%;
-    height: 700px;
+    height: 100vh;
+    max-height: 800px;
     overflow: hidden;
 }
 
@@ -15,6 +16,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center center;
 }
 
 .hero-overlay {
@@ -23,124 +25,80 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(15,13,26,0.2) 0%, rgba(15,13,26,0.7) 100%);
+    background: linear-gradient(180deg, rgba(4,4,8,0.15) 0%, rgba(6,6,12,0.52) 55%, rgba(5,5,10,0.88) 100%);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
-    padding-bottom: 3rem;
-}
-
-.hero-overlay h1 {
-    color: #ffffff;
-    font-size: 48px;
-    margin: 0 0 8px;
-    letter-spacing: 3px;
-}
-
-.hero-overlay p {
-    color: #b0c6e6;
-    font-size: 16px;
-    letter-spacing: 2px;
-    margin: 0 0 24px;
+    justify-content: center;
 }
 
 .btn-hero {
-    background: #6b3fa0;
-    color: #ffffff;
-    padding: 12px 32px;
+    background: #6d4bc3;
+    color: #f1edf7;
+    padding: 14px 40px;
+    margin-top: 10px;
     border-radius: 8px;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 16px;
     letter-spacing: 1px;
+    box-shadow: 0 4px 24px rgba(109,75,195,0.4);
 }
 
-.btn-hero:hover {
-    background: #8b5fc0;
-}
+.btn-hero:hover { background: #7d59db; }
 
 .home-content {
-    max-width: 1100px;
+    max-width: 83.33%;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 3rem 0;
     width: 100%;
     box-sizing: border-box;
 }
 
-.this-week h2, .about-contacts h2 {
-    color: #ffffff;
+.this-week {
+    margin-bottom: 4rem;
+}
+
+.this-week h2, .find-us h2 {
+    color: #f1edf7;
     margin-bottom: 1.5rem;
 }
 
-.sessions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-    margin-bottom: 3rem;
-}
-
-.session-card {
-    background: #1c1a2e;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.session-card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-}
-
-.no-poster {
-    width: 100%;
-    height: 160px;
-    background: #2a2840;
+.sessions-scroll {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 13px;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(157,132,255,0.3) transparent;
 }
 
-.session-info {
-    padding: 1rem;
+.sessions-scroll::-webkit-scrollbar {
+    height: 4px;
 }
 
-.session-info h3 {
-    color: #ffffff;
-    font-size: 14px;
-    margin: 0 0 6px;
+.sessions-scroll::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-.session-date {
-    color: #b0c6e6;
-    font-size: 12px;
-    margin: 0 0 12px;
+.sessions-scroll::-webkit-scrollbar-thumb {
+    background: rgba(157,132,255,0.3);
+    border-radius: 4px;
 }
 
-.btn-book-session {
-    display: block;
-    text-align: center;
-    padding: 8px;
-    background: #6b3fa0;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 13px;
+.sessions-scroll .session-card {
+    min-width: 220px;
+    flex-shrink: 0;
 }
 
-.btn-book-session:hover {
-    background: #8b5fc0;
-}
-
-.about-contacts {
+.find-us-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     gap: 2rem;
+    align-items: start;
 }
 
 .contacts-block p {
-    color: #b0c6e6;
+    color: #b8adc9;
     font-size: 14px;
-    margin: 0 0 12px;
+    margin: 0 0 16px;
+    line-height: 1.6;
 }
