@@ -343,3 +343,9 @@ def get_seats_status(request):
         for seat in seats
     ]
     return JsonResponse({'seats': data})
+
+def about(request):
+    return render(request, 'booking/about.html')
+
+def contacts(request):
+    return render(request, 'booking/contacts.html')

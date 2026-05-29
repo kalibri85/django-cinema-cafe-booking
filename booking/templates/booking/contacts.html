@@ -1,0 +1,31 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block title %}Contacts — Cinema Cafe{% endblock %}
+
+{% block body_class %}page-hall{% endblock %}
+
+{% block content %}
+<div class="contacts-wrapper">
+    <h1>Find us</h1>
+    <div class="find-us-grid">
+        <div class="map-block">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.3!2d-0.1!3d51.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzAwLjAiTiAwwrAwNicwMC4wIlc!5e0!3m2!1sen!2suk!4v1234567890"
+                width="100%"
+                height="500"
+                style="border:0; border-radius:12px;"
+                allowfullscreen=""
+                loading="lazy">
+            </iframe>
+        </div>
+        <div class="contacts-info">
+            <h2>Get in touch</h2>
+            <p>📍 123 Cinema Street, London</p>
+            <p>📞 +44 20 1234 5678</p>
+            <p>✉️ hello@cinemacafe.co.uk</p>
+            <p>🕐 Mon–Sun: 10:00 – 23:00</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

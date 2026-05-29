@@ -224,12 +224,42 @@ h1 {
 .btn-book-session:hover {
     background: #7d59db;
 }
+
+.find-us-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.contacts-wrapper {
+    max-width: 83.33%;
+    margin: 0 auto;
+    padding: 3rem 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contacts-info h2, .contacts-block h2 {
+    color: #f1edf7;
+    margin: 0 0 1.5rem;
+    font-size: 18px;
+}
+
+.contacts-info p, .contacts-block p {
+    color: #b8adc9;
+    font-size: 15px;
+    margin: 0 0 16px;
+    line-height: 1.6;
+}
+
 .footer {
     width: 100%;
     padding: 1.5rem 2rem;
     background: rgba(10,6,20,0.95);
     border-top: 1px solid rgba(255,255,255,0.05);
     margin-top: auto;
+    box-sizing: border-box;
 }
 
 .footer-inner {

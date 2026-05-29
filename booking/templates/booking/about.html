@@ -1,0 +1,34 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block title %}About — Cinema Cafe{% endblock %}
+
+{% block body_class %}page-hall{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'booking/css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="about-wrapper">
+
+    <div class="about-content">
+        <h1>About us</h1>
+
+        <div class="about-grid">
+            <div class="about-photo">
+                <img src="{% static 'booking/images/cafe_outside.png' %}" alt="Cinema Cafe">
+            </div>
+            <div class="about-text">
+                <h2>Where great films meet great food</h2>
+                <p>Cinema Cafe is a cosy place where great films meet great food and drinks.</p>
+                <p>We created a space where you can enjoy the latest movies in a warm, relaxed atmosphere — with delicious food, handcrafted drinks, and good company by your side.</p>
+                <p>Perfect for a date night, a family evening, or catching up with friends. Whether you come for the film or the food — you'll always find a reason to stay a little longer.</p>
+                <a href="/repertoire/" class="btn-primary">Book a seat</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
