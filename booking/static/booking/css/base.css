@@ -224,3 +224,30 @@ h1 {
 .btn-book-session:hover {
     background: #7d59db;
 }
+.footer {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background: rgba(10,6,20,0.95);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: auto;
+}
+
+.footer-inner {
+    max-width: 83.33%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    color: #9d84ff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.footer-copy {
+    color: #7f748f;
+    font-size: 13px;
+}
