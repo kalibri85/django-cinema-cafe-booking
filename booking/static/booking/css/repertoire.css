@@ -5,11 +5,6 @@
     box-sizing: border-box;
 }
 
-h1 {
-    color: #185FA5;
-    margin-bottom: 1.5rem;
-}
-
 .filters {
     display: flex;
     flex-direction: column;
@@ -30,22 +25,22 @@ h1 {
     padding: 8px 14px;
     border-radius: 8px;
     text-decoration: none;
-    background: white;
-    border: 1px solid #ddd;
-    color: #555;
+    background: #161022;
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #b8adc9;
     font-size: 13px;
     min-width: 52px;
 }
 
 .day-btn.active {
-    background: #185FA5;
-    border-color: #185FA5;
-    color: white;
+    background: #6d4bc3;
+    border-color: #6d4bc3;
+    color: #f1edf7;
 }
 
 .day-btn:hover:not(.active) {
-    border-color: #185FA5;
-    color: #185FA5;
+    border-color: rgba(157,132,255,0.3);
+    color: #f1edf7;
 }
 
 .day-name {
@@ -67,101 +62,24 @@ h1 {
     padding: 6px 16px;
     border-radius: 20px;
     text-decoration: none;
-    background: white;
-    border: 1px solid #ddd;
-    color: #555;
+    background: #161022;
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #b8adc9;
     font-size: 13px;
 }
 
 .type-btn.active {
-    background: #185FA5;
-    border-color: #185FA5;
-    color: white;
+    background: #6d4bc3;
+    border-color: #6d4bc3;
+    color: #f1edf7;
 }
 
 .type-btn:hover:not(.active) {
-    border-color: #185FA5;
-    color: #185FA5;
-}
-
-.sessions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-}
-
-.session-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.session-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.no-poster {
-    width: 100%;
-    height: 180px;
-    background: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #aaa;
-    font-size: 13px;
-}
-
-.session-info {
-    padding: 1rem;
-}
-
-.session-info h3 {
-    margin: 0 0 6px;
-    color: #222;
-    font-size: 15px;
-}
-
-.session-type {
-    color: #185FA5;
-    font-size: 12px;
-    margin: 0 0 4px;
-}
-
-.session-date {
-    color: #888;
-    font-size: 12px;
-    margin: 0 0 8px;
-}
-
-.session-desc {
-    color: #555;
-    font-size: 13px;
-    margin: 0 0 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.btn-book-session {
-    display: block;
-    text-align: center;
-    padding: 8px;
-    background: #185FA5;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-.btn-book-session:hover {
-    background: #0C447C;
+    border-color: rgba(157,132,255,0.3);
+    color: #f1edf7;
 }
 
 .no-sessions {
-    color: #888;
+    color: #7f748f;
     font-size: 14px;
 }

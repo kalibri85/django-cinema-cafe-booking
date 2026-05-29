@@ -11,14 +11,21 @@
 {% endblock %}
 
 {% block content %}
-   <div class="session-header">
-        <div class="session-header-content">
-            <h1 class="session-title">{{ current_session.movie.title }}</h1>
+    <div class="session-header">
+        <div class="session-header-top">
+            <a href="/repertoire/" class="btn-back">← Back to repertoire</a>
+            <span class="session-header-date">{{ current_session.date|date:"D, d M Y" }} · {{ current_session.get_session_type_display }} session</span>
+        </div>
+        <div class="session-header-body">
             {% if current_session.movie.poster %}
                 <img src="{{ current_session.movie.poster.url }}" alt="{{ current_session.movie.title }}">
             {% endif %}
-            <p class="session-header-date">{{ current_session.date|date:"D, d M Y" }} · {{ current_session.get_session_type_display }} session</p>
-            <a href="/repertoire/" class="btn-back">&#8592; Back to repertoire</a>
+            <div class="session-header-info">
+                <h1 class="session-title">{{ current_session.movie.title }}</h1>
+                {% if current_session.movie.description %}
+                    <p class="session-desc">{{ current_session.movie.description }}</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 

@@ -1,0 +1,69 @@
+{% extends 'booking/base.html' %}
+{% load static %}
+
+{% block title %}Cinema Cafe — Home{% endblock %}
+
+{% block body_class %}page-home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'booking/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+    <img src="{% static 'booking/images/cafe.png' %}" alt="Cinema Cafe" class="hero-img">
+    <div class="hero-overlay">
+        <a href="/repertoire/" class="btn-hero">Book a seat</a>
+    </div>
+</div>
+
+<div class="home-content">
+
+    <section class="this-week">
+        <h2>This week</h2>
+        <div class="sessions-grid">
+            {% for session in sessions %}
+            <div class="session-card">
+                {% if session.movie.poster %}
+                    <img src="{{ session.movie.poster.url }}" alt="{{ session.movie.title }}">
+                {% else %}
+                    <div class="no-poster">No poster</div>
+                {% endif %}
+                <div class="session-info">
+                    <h3>{{ session.movie.title }}</h3>
+                    <p class="session-date">{{ session.date|date:"D, d M" }} · {{ session.get_session_type_display }}</p>
+                    <a href="/book/?date={{ session.date|date:'Y-m-d' }}" class="btn-book-session">Book seats</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="no-sessions">No sessions this week.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="about-contacts">
+        <div class="map-block">
+            <h2>Find us</h2>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.3!2d-0.1!3d51.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDMwJzAwLjAiTiAwwrAwNicwMC4wIlc!5e0!3m2!1sen!2suk!4v1234567890"
+                width="100%"
+                height="300"
+                style="border:0; border-radius:12px;"
+                allowfullscreen=""
+                loading="lazy">
+            </iframe>
+        </div>
+
+        <div class="contacts-block">
+            <h2>Contacts</h2>
+            <p>📍 123 Cinema Street, London</p>
+            <p>📞 +44 20 1234 5678</p>
+            <p>✉️ info@cinemacafe.co.uk</p>
+            <p>🕐 Mon–Sun: 11:00 – 23:00</p>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

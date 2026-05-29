@@ -7,6 +7,18 @@ from django.utils import timezone
 from .forms import BookingForm
 
 
+def home(request):
+    today = date.today()
+    sessions = Session.objects.filter(
+        date__gte=today,
+        date__lte=today + timedelta(days=6),
+        is_active=True
+    ).select_related('movie').order_by('date', 'session_type')[:6]
+
+    return render(request, 'booking/home.html', {
+        'sessions': sessions,
+    })
+
 def repertoire(request):
     today = date.today()
     week_days = [today + timedelta(days=i) for i in range(7)]

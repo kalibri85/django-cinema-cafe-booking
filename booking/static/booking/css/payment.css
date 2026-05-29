@@ -1,20 +1,21 @@
 .payment-card {
-    background: white;
+    background: #161022;
     padding: 2rem;
     border-radius: 12px;
     width: 380px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.42);
 }
 
 h2 {
     margin-top: 0;
-    color: #185FA5;
+    color: #f1edf7;
 }
 
 .odd-banner {
-    background: #FFF3CD;
-    border: 1px solid #EF9F27;
-    color: #633806;
+    background: rgba(125,89,219,0.18);
+    border: 1px solid rgba(157,132,255,0.12);
+    color: #9d84ff;
     padding: 10px 14px;
     border-radius: 8px;
     font-size: 13px;
@@ -25,71 +26,61 @@ h2 {
 }
 
 .seats-price {
-    display:flex; 
-    align-items:center; 
-    gap:8px; 
-    margin-bottom:4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 
 .seats-price span {
     font-size: 13px;
+    color: #b8adc9;
 }
 
 .original-price {
-    text-decoration:line-through; 
-    color:#888; 
-    font-size:12px;
+    text-decoration: line-through;
+    color: #7f748f;
+    font-size: 12px;
 }
 
 .new-price {
-    color:#3B6D11; 
+    color: #9d84ff;
 }
 
 .subtotal-block {
-    border-top: 1px solid #eee; 
-    padding-top: 1rem; 
-    margin-bottom: 1rem; 
-    font-size:14px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 14px;
 }
 
-.subtotal {
-    display:flex; 
-    justify-content:space-between; 
-    margin-bottom:4px;
-}
-
-.subtotal span.title {
-    color:#555;
-}
-
-.vat {
-    display:flex; 
-    justify-content:space-between; 
-    margin-bottom:4px;
+.subtotal, .vat {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    color: #b8adc9;
 }
 
 .total {
-    display:flex; 
-    justify-content:space-between; 
-    font-weight:bold; 
-    font-size:16px; 
-    margin-top:8px;
-}    
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 8px;
+    color: #f1edf7;
+}
 
 .total span {
-    color: #185FA5;
+    color: #9d84ff;
 }
 
 .total span.title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #222;
-    margin-bottom: 1.5rem;
+    color: #f1edf7;
 }
 
 .timer {
     font-size: 13px;
-    color: #E24B4A;
+    color: #ff6b6b;
     margin-bottom: 1.5rem;
 }
 
@@ -107,34 +98,31 @@ h2 {
 }
 
 .btn-pay {
-    background: #185FA5;
-    color: white;
+    background: #6d4bc3;
+    color: #f1edf7;
     border: none;
     font-size: 16px;
+    box-shadow: 0 4px 16px rgba(109,75,195,0.32);
 }
 
-.btn-pay:hover {
-    background: #0C447C;
-}
+.btn-pay:hover { background: #7d59db; }
 
 .btn-add {
-    background: #EAF3DE;
-    border: 1px solid #3B6D11;
-    color: #27500A;
+    background: #161022;
+    border: 1px solid rgba(157,132,255,0.12);
+    color: #9d84ff;
 }
 
 .btn-add:hover {
-    background: #C0DD97;
+    border-color: rgba(157,132,255,0.3);
+    color: #f1edf7;
 }
 
 .btn-cancel {
     background: none;
     border: none;
-    color: #888;
+    color: #7f748f;
     font-size: 13px;
-    cursor: pointer;
 }
 
-.btn-cancel:hover {
-    color: #E24B4A;
-}
+.btn-cancel:hover { color: #ff6b6b; }

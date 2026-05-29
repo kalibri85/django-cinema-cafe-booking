@@ -1,70 +1,55 @@
 .card {
-    background: white;
+    background: #161022;
     padding: 2.5rem;
     border-radius: 12px;
     width: 400px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.42);
     text-align: center;
 }
 
 .checkmark {
     width: 64px;
     height: 64px;
-    background: #EAF3DE;
+    background: rgba(109,75,195,0.18);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
     font-size: 32px;
+    color: #9d84ff;
 }
 
 h2 {
-    color: #27500A;
+    color: #f1edf7;
     margin-top: 0;
-}
-
-.seats-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
-}
-
-.seat-badge {
-    background: #FCEBEB;
-    border: 1px solid #A32D2D;
-    color: #791F1F;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 13px;
 }
 
 .total {
     font-size: 18px;
     font-weight: bold;
-    color: #222;
+    color: #f1edf7;
     margin-bottom: 1.5rem;
 }
 
 .total span {
-    color: #185FA5;
+    color: #9d84ff;
 }
 
 .btn-home {
     display: block;
     width: 100%;
     padding: 12px;
-    background: #185FA5;
-    color: white;
+    background: #6d4bc3;
+    color: #f1edf7;
     border: none;
     border-radius: 8px;
     font-size: 15px;
     cursor: pointer;
     text-decoration: none;
     box-sizing: border-box;
+    box-shadow: 0 4px 16px rgba(109,75,195,0.32);
 }
 
-.btn-home:hover {
-    background: #0C447C;
-}
+.btn-home:hover { background: #7d59db; }

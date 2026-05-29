@@ -1,7 +1,13 @@
 body {
-    font-family: 'Montserrat';
-    background: #0f0d1a;
+    font-family: sans-serif;
+    background: #090511;
     margin: 0;
+    color: #f1edf7;
+}
+
+h1 {
+    color: #f1edf7;
+    margin-bottom: 1.5rem;
 }
 
 .navbar {
@@ -10,10 +16,12 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background: linear-gradient(180deg, #13012c 0%, #0f0d1a 100%);
+    background: rgba(10, 6, 20, 0.72);
+    backdrop-filter: blur(12px);
     box-sizing: border-box;
     z-index: 10;
-    min-height: 100px;
+    min-height: 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .nav-logo {
@@ -32,12 +40,12 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: #b0c6e6;
+    color: #b8adc9;
     font-size: 14px;
 }
 
 .nav-links a:hover {
-    color: #ffffff;
+    color: #f1edf7;
 }
 
 .page-centered {
@@ -45,7 +53,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - 70px);
 }
 
 .page-hall {
@@ -53,7 +61,6 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 2rem;
-    margin: 2rem 0;
 }
 
 .seats-list {
@@ -64,27 +71,144 @@ body {
 }
 
 .seat-badge {
-    background: #E6F1FB;
-    border: 1px solid #185FA5;
-    color: #185FA5;
+    background: rgba(109,75,195,0.18);
+    border: 1px solid rgba(157,132,255,0.12);
+    color: #9d84ff;
     padding: 3px 8px;
     border-radius: 4px;
     font-size: 13px;
 }
 
 .booking-details, .booking-info {
-    background: #f5f5f5;
+    background: #11081d;
     padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1.5rem;
     font-size: 14px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .booking-details p, .booking-info p {
     margin: 6px 0;
-    color: #555;
+    color: #b8adc9;
 }
 
 .booking-details strong, .booking-info strong {
-    color: #222;
+    color: #f1edf7;
+}
+
+.btn-primary {
+    background: #6d4bc3;
+    color: #f1edf7;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(109,75,195,0.32);
+    box-sizing: border-box;
+}
+
+.btn-primary:hover {
+    background: #7d59db;
+}
+
+.btn-secondary {
+    background: #161022;
+    color: #9d84ff;
+    border: 1px solid rgba(157,132,255,0.12);
+    border-radius: 8px;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.btn-secondary:hover {
+    background: #11081d;
+    border-color: rgba(157,132,255,0.3);
+}
+
+.sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.session-card {
+    background: #161022;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.session-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.no-poster {
+    width: 100%;
+    height: 180px;
+    background: #11081d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7f748f;
+    font-size: 13px;
+}
+
+.session-info {
+    padding: 1rem;
+}
+
+.session-info h3 {
+    margin: 0 0 6px;
+    color: #f1edf7;
+    font-size: 15px;
+}
+
+.session-type {
+    color: #9d84ff;
+    font-size: 12px;
+    margin: 0 0 4px;
+}
+
+.session-date {
+    color: #b8adc9;
+    font-size: 12px;
+    margin: 0 0 8px;
+}
+
+.session-desc {
+    color: #7f748f;
+    font-size: 13px;
+    margin: 0 0 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.btn-book-session {
+    display: block;
+    text-align: center;
+    padding: 8px;
+    background: #6d4bc3;
+    color: #f1edf7;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(109,75,195,0.32);
+}
+
+.btn-book-session:hover {
+    background: #7d59db;
 }

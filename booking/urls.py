@@ -4,8 +4,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.hall, name='hall'),
+    path('', views.home, name='home'),
     path('repertoire/', views.repertoire, name='repertoire'),
+    path('book/', views.hall, name='hall'),
     path('book/<int:seat_id>/', views.book_seat, name='book_seat'),
     path('confirm/', views.confirm_booking, name='confirm_booking'),
     path('payment/', views.payment, name='payment'),

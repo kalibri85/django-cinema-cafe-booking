@@ -49,7 +49,7 @@
                 {% if session.movie.description %}
                     <p class="session-desc">{{ session.movie.description }}</p>
                 {% endif %}
-                <a href="/?session_id={{ session.id }}" class="btn-book-session">Book seats</a>
+                <a href="/book/?session_id={{ session.id }}" class="btn-book-session">Book seats</a>
             </div>
         </div>
         {% empty %}
