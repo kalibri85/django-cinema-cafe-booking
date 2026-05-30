@@ -102,3 +102,28 @@ function submitBooking() {
         });
     });
 }
+
+function refreshSeats() {
+    fetch('/seats/status/')
+        .then(res => res.json())
+        .then(data => {
+            data.seats.forEach(seat => {
+                const el = document.querySelector(`[data-seat-id="${seat.id}"]`);
+                if (!el) return;
+                if (el.classList.contains('selected')) return;
+
+                const current = el.dataset.status;
+                if (current !== seat.status) {
+                    el.classList.remove('available', 'booked', 'reserved');
+                    el.classList.add(seat.status);
+                    el.dataset.status = seat.status;
+
+                    el.style.background = '';
+                    el.style.borderColor = '';
+                    el.style.color = '';
+                }
+            });
+        });
+}
+
+setInterval(refreshSeats, 10000);
