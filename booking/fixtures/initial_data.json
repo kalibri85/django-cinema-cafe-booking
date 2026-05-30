@@ -411,6 +411,76 @@
   }
 },
 {
+  "model": "booking.seatstatus",
+  "pk": 2,
+  "fields": {
+    "seat": 3,
+    "session": 2,
+    "status": "booked",
+    "reserved_until": null
+  }
+},
+{
+  "model": "booking.seatstatus",
+  "pk": 3,
+  "fields": {
+    "seat": 3,
+    "session": 4,
+    "status": "available",
+    "reserved_until": null
+  }
+},
+{
+  "model": "booking.seatstatus",
+  "pk": 4,
+  "fields": {
+    "seat": 4,
+    "session": 4,
+    "status": "available",
+    "reserved_until": null
+  }
+},
+{
+  "model": "booking.seatstatus",
+  "pk": 5,
+  "fields": {
+    "seat": 5,
+    "session": 9,
+    "status": "booked",
+    "reserved_until": null
+  }
+},
+{
+  "model": "booking.seatstatus",
+  "pk": 6,
+  "fields": {
+    "seat": 6,
+    "session": 9,
+    "status": "booked",
+    "reserved_until": null
+  }
+},
+{
+  "model": "booking.seatstatus",
+  "pk": 7,
+  "fields": {
+    "seat": 3,
+    "session": 10,
+    "status": "booked",
+    "reserved_until": null
+  }
+},
+{
+  "model": "booking.seatstatus",
+  "pk": 8,
+  "fields": {
+    "seat": 4,
+    "session": 7,
+    "status": "available",
+    "reserved_until": null
+  }
+},
+{
   "model": "booking.booking",
   "pk": 3,
   "fields": {
@@ -418,6 +488,46 @@
     "session": 7,
     "customer_name": "Zanna",
     "created_at": "2026-05-27T19:57:45.879Z"
+  }
+},
+{
+  "model": "booking.booking",
+  "pk": 4,
+  "fields": {
+    "seat": 3,
+    "session": 2,
+    "customer_name": "Muhamed",
+    "created_at": "2026-05-27T20:25:11.879Z"
+  }
+},
+{
+  "model": "booking.booking",
+  "pk": 5,
+  "fields": {
+    "seat": 5,
+    "session": 9,
+    "customer_name": "Martin",
+    "created_at": "2026-05-30T14:04:14.406Z"
+  }
+},
+{
+  "model": "booking.booking",
+  "pk": 6,
+  "fields": {
+    "seat": 6,
+    "session": 9,
+    "customer_name": "Martin",
+    "created_at": "2026-05-30T14:04:14.418Z"
+  }
+},
+{
+  "model": "booking.booking",
+  "pk": 7,
+  "fields": {
+    "seat": 3,
+    "session": 10,
+    "customer_name": "Nadin",
+    "created_at": "2026-05-30T14:05:06.993Z"
   }
 },
 {
