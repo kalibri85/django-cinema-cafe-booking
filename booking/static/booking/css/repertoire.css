@@ -1,7 +1,8 @@
 .repertoire-wrapper {
     width: 100%;
-    max-width: 900px;
-    padding: 2rem;
+    max-width: 83.33%;
+    margin: 0 auto;
+    padding: 2rem 0;
     box-sizing: border-box;
 }
 
@@ -15,10 +16,27 @@
 .day-filters {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(157,132,255,0.3) transparent;
+}
+
+.day-filters::-webkit-scrollbar {
+    height: 4px;
+}
+
+.day-filters::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.day-filters::-webkit-scrollbar-thumb {
+    background: rgba(157,132,255,0.3);
+    border-radius: 4px;
 }
 
 .day-btn {
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -21,14 +21,14 @@ def home(request):
 
 def repertoire(request):
     today = date.today()
-    week_days = [today + timedelta(days=i) for i in range(7)]
+    month_days = [today + timedelta(days=i) for i in range(30)]
 
     selected_date = request.GET.get('date', str(today))
     selected_type = request.GET.get('type', '')
 
     sessions = Session.objects.filter(
         date__gte=today,
-        date__lte=today + timedelta(days=6),
+        date__lte=today + timedelta(days=29),
         is_active=True
     ).select_related('movie')
 
@@ -39,7 +39,7 @@ def repertoire(request):
 
     return render(request, 'booking/repertoire.html', {
         'sessions': sessions,
-        'week_days': week_days,
+        'week_days': month_days,
         'selected_date': selected_date,
         'selected_type': selected_type,
         'today': today,
