@@ -1,0 +1,24 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block content %}
+<h1>Add sessions for "{{ movie.title }}"</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div style="margin-bottom:1rem;">
+        <strong>Session type:</strong><br>
+        {{ form.session_type }}
+    </div>
+    <div style="margin-bottom:1rem;">
+        <strong>Select dates:</strong><br>
+        {{ form.dates }}
+    </div>
+    <button type="submit" class="button default">Add sessions</button>
+    <a href="/admin/booking/movie/{{ movie.id }}/change/" class="button">Cancel</a>
+</form>
+<script>
+    const existingDay = {{ existing_day|safe }};
+    const existingEvening = {{ existing_evening|safe }};
+</script>
+<script src="{% static 'booking/js/add_sessions.js' %}"></script>
+{% endblock %}

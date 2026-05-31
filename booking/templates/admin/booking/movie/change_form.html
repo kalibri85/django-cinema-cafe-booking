@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools-items %}
+    {% if add_sessions_url %}
+    <li>
+        <a href="{{ add_sessions_url }}" class="button">Add sessions</a>
+    </li>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
