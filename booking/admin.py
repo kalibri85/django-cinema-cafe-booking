@@ -44,13 +44,14 @@ class MovieSessionForm(forms.Form):
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ['title', 'poster_preview']
+    readonly_fields = ['poster_preview']
     inlines = [SessionInline]
 
     def poster_preview(self, obj):
         if obj.poster:
             return format_html('<img src="{}" height="60" style="border-radius:4px;">', obj.poster.url)
         return 'No poster'
-    poster_preview.short_description = 'Poster'
+    poster_preview.short_description = 'Poster preview'
 
     def get_urls(self):
         from django.urls import path
