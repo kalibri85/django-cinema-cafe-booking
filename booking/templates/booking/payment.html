@@ -68,7 +68,7 @@
         <button type="submit" class="btn-pay">Pay now £{{ total|floatformat:2 }}</button>
     </form>
 
-    <a href="/" class="btn-add">+ Add more seats</a>
+    <a href="/book/?session_id={{ current_session.id }}" class="btn-add">+ Add more seats</a>
 
     <form method="POST" action="/payment/cancel/">
         {% csrf_token %}

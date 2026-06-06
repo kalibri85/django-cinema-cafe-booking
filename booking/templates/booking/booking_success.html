@@ -35,6 +35,6 @@
         Total paid: <span>£{{ total|floatformat:2 }}</span>
     </div>
 
-    <a href="/" class="btn-home">Back to hall</a>
+    <a href="/book/?session_id={{ current_session.id }}" class="btn-home">Back to hall</a>
 </div>
 {% endblock %}
