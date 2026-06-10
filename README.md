@@ -86,11 +86,27 @@ DB_PASSWORD=your-db-password
 DB_HOST=127.0.0.1
 DB_PORT=3306
 
-5. Set up database and run:
+5. Create the database in MySQL:
+```sql
+CREATE DATABASE cinema_cafe CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'cafe_user'@'%' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON cinema_cafe.* TO 'cafe_user'@'%';
+FLUSH PRIVILEGES;
+```
+
+6. Apply migrations and load initial data:
 ```bash
 python manage.py migrate
 python manage.py loaddata booking/fixtures/initial_data.json
+```
+
+7. Create admin user:
+```bash
 python manage.py createsuperuser
+```
+
+8.Run server:
+```bash
 python manage.py runserver
 ```
-6. Open in browser: `http://YOUR_LOCAL_IP:8000`
+9. Open in browser: `http://YOUR_LOCAL_IP:8000`
