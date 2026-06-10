@@ -87,6 +87,9 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 
 5. Create the database in MySQL:
+```bash
+sudo mysql
+```
 ```sql
 CREATE DATABASE cinema_cafe CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER 'cafe_user'@'%' IDENTIFIED BY 'your_password';
