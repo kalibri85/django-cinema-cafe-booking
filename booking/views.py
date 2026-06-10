@@ -287,7 +287,7 @@ def payment_cancel(request):
             del request.session['pending_booking']
     session_id = request.session.get('current_session_id')
     if session_id:
-        return redirect(f'book/?session_id={session_id}')        
+        return redirect(f'/book/?session_id={session_id}')        
     return redirect('hall')
 
 
