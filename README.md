@@ -105,7 +105,7 @@ python manage.py loaddata booking/fixtures/initial_data.json
 python manage.py createsuperuser
 ```
 
-8.Run server:
+8. Run server:
 ```bash
 python manage.py runserver
 ```
