@@ -78,15 +78,7 @@ source venv/bin/activate
 pip install django mysqlclient python-dotenv Pillow
 ```
 
-4. Create `.env` file in the project root:
-SECRET_KEY=your-secret-key
-DB_NAME=cinema_cafe
-DB_USER=your-db-user
-DB_PASSWORD=your-db-password
-DB_HOST=127.0.0.1
-DB_PORT=3306
-
-5. Create the database in MySQL:
+4. Create the database in MySQL:
 ```bash
 sudo mysql
 ```
@@ -96,6 +88,14 @@ CREATE USER 'cafe_user'@'%' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON cinema_cafe.* TO 'cafe_user'@'%';
 FLUSH PRIVILEGES;
 ```
+
+5. Create `.env` file in the project root:
+SECRET_KEY=your-secret-key
+DB_NAME=cinema_cafe
+DB_USER=your-db-user
+DB_PASSWORD=your-db-password
+DB_HOST=127.0.0.1
+DB_PORT=3306
 
 6. Apply migrations and load initial data:
 ```bash
